@@ -1,0 +1,33 @@
+```go
+package main
+
+import "fmt"
+
+func do(i interface{}) {
+	// 型スイッチ (type switch)
+	sswitch v := i.(type) {
+	case int:
+		fmt.Printf("Integer: %d (2倍にすると %d)\n", v, v*2)
+	case string:
+		fmt.Printf("String: \"%s\" (長さ %d)\n", v, len(v))
+	default:
+		fmt.Printf("Unknown type (%T): %v\n", v, v)
+	}
+}
+
+func main() {
+	do(21)
+	do("hello")
+	do(true)
+}
+```
+
+### 解説
+- **型スイッチ (Type Switch)** は、インターフェース型の変数が保持する具体的な型に応じて、処理を分岐させるための `switch` 文の特殊な形式です。
+- `switch v := i.(type)` という構文で使います。
+  - `i` は調査対象のインターフェース型の変数です。
+  - `v` は、各 `case` ブロック内で、その `case` で指定された型に変換された値が格納される変数です。
+- `if-else` で型アサーションを連鎖させるよりも、はるかに簡潔で読みやすいコードを書くことができます。
+- `case` には型名を指定します。`default` ケースは、どの `case` にもマッチしなかった場合に実行されます。
+
+```

@@ -1,0 +1,22 @@
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	words := []string{"Go", "is", "awesome"}
+	
+	// 第1引数にスライス、第2引数に区切り文字を指定
+	result := strings.Join(words, " ")
+
+	fmt.Println(result)
+}
+```
+
+### 解説
+- `strings.Join(elems []string, sep string) string`:
+  - 第1引数で与えられた文字列スライスの全要素を、第2引数で指定された区切り文字 `sep` で連結した、新しい一つの文字列を返します。
+  - `for` ループと文字列結合演算子 `+` を使って自前で連結するよりも、一般的に `strings.Join` を使う方が効率的です。

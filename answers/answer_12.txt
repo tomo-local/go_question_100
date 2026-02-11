@@ -1,0 +1,47 @@
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+)
+
+func main() {
+	// 書き込むデータ
+	content := []byte("Hello, Go!")
+	// ファイル名
+	filename := "hello.txt"
+	// パーミッション (rw-r--r--)
+	permission := os.FileMode(0644)
+
+	// 1. ファイルに書き込む
+	err := os.WriteFile(filename, content, permission)
+	if err != nil {
+		log.Fatalf("ファイルへの書き込みに失敗しました: %v", err)
+	}
+	fmt.Println("ファイルへの書き込みが完了しました。")
+
+	// 2. ファイルから読み込む
+	readContent, err := os.ReadFile(filename)
+	if err != nil {
+		log.Fatalf("ファイルの読み込みに失敗しました: %v", err)
+	}
+
+	fmt.Printf("読み込んだ内容: %s\n", string(readContent))
+
+	// 後片付け
+	os.Remove(filename)
+	fmt.Println("ファイルを削除しました。")
+}
+```
+
+### 解説
+- `os.WriteFile(name string, data []byte, perm os.FileMode) error`:
+  - 指定したファイル名 `name` に、バイトスライス `data` の内容を書き込みます。
+  - ファイルが存在しない場合は、指定されたパーミッション `perm` で作成されます。ファイルが既に存在する場合は、書き込む前に中身が空にされます。
+- `os.ReadFile(name string) ([]byte, error)`:
+  - 指定したファイル名 `name` の内容をすべて読み込み、バイトスライスとして返します。
+- これらの関数は、Go 1.16で追加された比較的新しい関数で、単純なファイルの読み書きを簡単に行うことができます。
+
+```

@@ -1,0 +1,33 @@
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+
+	for i := 1; i <= 3; i++ {
+		wg.Add(1)
+		workerID := i
+		go func() {
+			defer wg.Done()
+			time.Sleep(1 * time.Second)
+			fmt.Printf("Worker %d finished.\n", workerID)
+		}()
+	}
+
+	// すべてのワーカーが終了するまで待機
+	wg.Wait()
+	fmt.Println("All workers finished.")
+}
+```
+
+### 解説
+- `sync.WaitGroup` は、複数のゴルーチンの完了を待つための仕組みです。
+- `Add(n)` でカウンタを n 増やし、各ゴルーチン内で `Done()` を呼ぶとカウンタが1減ります。`Wait()` はカウンタが0になるまでブロックします。
+- ゴルーチンに渡すループ変数 `i` は、クロージャでキャプチャすると同じ参照になるため、`workerID := i` でコピーしてからゴルーチンに渡しています。
+- `defer wg.Done()` にすることで、ゴルーチンが panic しても確実に `Done` が呼ばれ、デッドロックを防ぎます。

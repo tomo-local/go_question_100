@@ -1,0 +1,33 @@
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func main() {
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	done := make(chan struct{})
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		done <- struct{}{}
+	}()
+
+	select {
+	case <-done:
+		fmt.Println("Operation completed.")
+	case <-ctx.Done():
+		fmt.Println("Operation timed out!")
+	}
+}
+```
+
+### 解説
+- `context.WithTimeout(ctx, d)` は、`d` 経過後にキャンセルされる（`Done()` が閉じられる）コンテキストを返します。返される `cancel` は、タイムアウト前でも手動でキャンセルするために呼びます。`defer cancel()` でリソースを解放します。
+- 重い処理をシミュレートするゴルーチンは、完了時に `done` に送信します。`main` の `select` では、`ctx.Done()` と `done` のどちらが先に来るかを待ち、この例では1秒でタイムアウトするため "Operation timed out!" が表示されます。
+- 実際の処理側では、定期的に `ctx.Done()` を確認して早期終了するようにすると、タイムアウト時に確実に処理を止められます。

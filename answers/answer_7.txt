@@ -1,0 +1,32 @@
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	// os.Args[0] はプログラムのパスなので、スライス[1:]でそれ以降の引数を対象にする
+	for i, arg := range os.Args[1:] {
+		// インデックスは0から始まるので、表示上は i+1 とする
+		fmt.Printf("%d: %s\n", i+1, arg)
+	}
+}
+```
+
+### 実行方法
+```sh
+# ビルドしてから実行
+go build -o myapp
+./myapp hello world
+
+# go runで実行
+go run main.go hello world
+```
+
+### 解説
+- `os.Args` は、プログラム実行時に渡されたコマンドライン引数を `[]string` 型のスライスとして保持します。
+- `os.Args[0]` には、実行されたプログラム自身のパスが格納されています。
+- ユーザーが渡した引数のみを扱いたい場合は、スライスの `[1:]` の部分（2番目の要素から最後まで）にアクセスします。
+```

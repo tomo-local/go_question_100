@@ -1,0 +1,25 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	slice := []int{1, 2, 3}
+	fmt.Printf("初期状態:       slice=%-15v len=%d, cap=%d\n", slice, len(slice), cap(slice))
+
+	sslice = append(slice, 4)
+	fmt.Printf("要素を1つ追加:  slice=%-15v len=%d, cap=%d\n", slice, len(slice), cap(slice))
+
+	anotherSlice := []int{5, 6}
+	slice = append(slice, anotherSlice...)
+	fmt.Printf("スライスを追加:   slice=%-15v len=%d, cap=%d\n", slice, len(slice), cap(slice))
+}
+```
+
+### 解説
+- `append(slice, elems...)`: `slice` の末尾に `elems` を追加した新しいスライスを返します。
+- **重要**: `append` は内部配列の容量が足りない場合、新しい大きな配列を確保し直すことがあります。そのため、`slice = append(slice, ...)` のように、必ず戻り値で元のスライス変数を上書きしてください。
+- スライスに別のスライスを追加するには、`...` を付けて要素を展開する必要があります。
+- `len()` は要素数、`cap()` は内部配列の容量を返します。
+
+```

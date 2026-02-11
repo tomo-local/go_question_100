@@ -1,0 +1,21 @@
+```go
+package main
+
+import (
+	"log"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Hello, World!"))
+	})
+
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+
+### 解説
+- `http.ListenAndServe(addr, handler)` は、指定したアドレスで HTTP サーバを起動します。`handler` が `nil` のときは、デフォルトの `DefaultServeMux` が使われ、`http.HandleFunc` で登録したパターンが有効になります。
+- `http.HandleFunc("/", ...)` でルートパスへのリクエストに "Hello, World!" を返すハンドラを登録しています。どのパスでもこのハンドラに来るようにするなら、`/` のみ登録するか、あるいは `HandleFunc("/", ...)` が未登録パスのフォールバックになります（他にマッチするパスがなければ `/` に来る）。
+- `log.Fatal` は、`ListenAndServe` が返すエラー（例: ポート使用中）をログに出力し、`os.Exit(1)` で終了します。サーバは通常止まらないので、エラー時のみ戻り値が返ります。

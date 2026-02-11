@@ -1,0 +1,36 @@
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+func main() {
+	// 標準入力を読み取るための新しいスキャナを作成
+	scanner := bufio.NewScanner(os.Stdin)
+
+	fmt.Print("何か入力してください: ")
+
+	// Scan() は次のトークン（デフォルトでは行）を読み込む。成功すればtrueを返す。
+	if scanner.Scan() {
+		// Text() で読み込んだ内容を文字列として取得
+		line := scanner.Text()
+		fmt.Printf("入力された内容: %s\n", line)
+	}
+
+	// scanner.Err() でスキャン中に発生したエラーを確認できる
+	if err := scanner.Err(); err != nil {
+		fmt.Fprintln(os.Stderr, "読み込みエラー:", err)
+	}
+}
+```
+
+### 解説
+- `bufio.NewScanner(r io.Reader)`: `io.Reader`（この場合は `os.Stdin`）からデータを効率的に読み込むための `Scanner` を作成します。
+- `scanner.Scan()`: 入力から次のトークン（デフォルトでは改行まで）を読み込みます。入力があれば `true`、なければ `false` を返します。
+- `scanner.Text()`: `Scan()` で読み込んだ部分を文字列として返します。
+- この方法は、一行ずつテキストを処理するのに非常に便利です。
+
+```

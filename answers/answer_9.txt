@@ -1,0 +1,26 @@
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+func main() {
+	numbers := []int{10, 2, 8, 5, 3}
+
+	fmt.Println("ソート前:", numbers)
+
+	// sort.Ints はスライスを直接変更する（インプレースソート）
+	sort.Ints(numbers)
+
+	fmt.Println("ソート後:", numbers)
+}
+```
+
+### 解説
+- `sort.Ints(slice []int)`:
+  - `[]int` 型のスライスを、昇順にソートします。
+  - この関数は新しいスライスを返すのではなく、引数として渡されたスライス自体を直接変更します（インプレースソート）。
+- `string` や `float64` のスライスをソートするための `sort.Strings` や `sort.Float64s` も用意されています。
+- より複雑な条件でソートしたい場合は、`sort.Slice` や `sort.Interface` を使います。

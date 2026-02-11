@@ -1,0 +1,45 @@
+```go
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+)
+
+// JSONデータを受け取るための構造体
+// JSONのキーとマッピングされるフィールドは、大文字で始まる必要がある
+type Product struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func main() {
+	// 変換元のJSONデータ（バイトスライス）
+	jsonData := []byte(`{"id":101,"name":"Book"}`)
+
+	// JSONデータを格納するための、Product構造体のインスタンスを（ゼロ値で）用意
+	var p Product
+
+	// JSONバイトスライスを構造体に変換（アンマーシャリング）
+	// pのアドレスを渡すことに注意
+	err := json.Unmarshal(jsonData, &p)
+	if err != nil {
+		log.Fatalf("JSONからのアンマーシャリングに失敗しました: %v", err)
+	}
+
+	// 結果の確認
+	fmt.Printf("アンマーシャリング成功: %+v\n", p)
+	fmt.Printf("ID: %d\n", p.ID)
+	fmt.Printf("Name: %s\n", p.Name)
+}
+```
+
+### 解説
+- `json.Unmarshal(data []byte, v interface{}) error`:
+  - 第1引数のJSONデータ `data` を、第2引数 `v` で指定されたデータ構造にデコードします。
+- **ポインタを渡す**:
+  - `Unmarshal` は、デコードしたデータを書き込む先の変数（この場合は `p`）の**メモリアドレス（ポインタ）**を必要とします。そのため、`&p` のようにアドレスを渡します。
+- 構造体タグ `json:"..."` は、JSONのキーと構造体のフィールドを対応付けるために使われます。
+
+```

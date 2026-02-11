@@ -1,0 +1,32 @@
+```go
+package main
+
+import (
+	"encoding/csv"
+	"fmt"
+	"strings"
+)
+
+func main() {
+	in := `first_name,last_name,username
+Rob,Pike,rob
+Ken,Thompson,ken
+`
+
+	r := csv.NewReader(strings.NewReader(in))
+	records, err := r.ReadAll()
+	if err != nil {
+		fmt.Println("ReadAll error:", err)
+		return
+	}
+
+	for _, record := range records {
+		fmt.Println(record)
+	}
+}
+```
+
+### 解説
+- `strings.NewReader(s)` で CSV の文字列を `io.Reader` にし、`csv.NewReader(io.Reader)` に渡すと、CSV をパースするリーダーが得られます。
+- `ReadAll()` はすべてのレコードを `[][]string` で返します。1行が1つの `[]string`（各フィールドが要素）です。ファイルから読む場合は `os.Open` で開いた `*os.File` を `csv.NewReader` に渡します。
+- レコード数が多くなるとメモリを消費するため、その場合は `Read()` で1行ずつ読みます。ここでは説明用に `ReadAll` で一括読みしています。

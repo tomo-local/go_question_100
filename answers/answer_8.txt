@@ -1,0 +1,38 @@
+```go
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+	// 1. 文字列から数値へ
+	strVal := "123"
+	// Atoi (ASCII to Integer)
+	intVal, err := strconv.Atoi(strVal)
+	if err != nil {
+		fmt.Printf("変換に失敗しました: %v\n", err)
+	} else {
+		fmt.Printf("文字列 \"%s\" -> 数値 %d\n", strVal, intVal)
+	}
+
+	// 2. 数値から文字列へ
+	numVal := 456
+	// Itoa (Integer to ASCII)
+	strResult := strconv.Itoa(numVal)
+	fmt.Printf("数値 %d -> 文字列 \"%s\"\n", numVal, strResult)
+}
+```
+
+### 解説
+- `strconv.Atoi(s string) (int, error)`:
+  - 文字列を `int` 型に変換します。
+  - 数値として解釈できない文字列が渡された場合（例: "abc"）、エラーを返します。そのため、必ずエラーハンドリングが必要です。
+
+- `strconv.Itoa(i int) string`:
+  - `int` 型の数値を文字列に変換します。こちらはエラーを返すことはありません。
+
+- `Atoi` は `ParseInt` の、`Itoa` は `FormatInt` の、それぞれ10進数の `int` 型に特化した便利なラッパー関数です。
+
+```

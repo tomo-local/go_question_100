@@ -1,0 +1,27 @@
+```go
+package main
+
+import (
+	"fmt"
+	"path/filepath"
+)
+
+func main() {
+	path := filepath.Join("dir1", "dir2", "file.txt")
+	fmt.Println("Joined path:", path)
+
+	dir := filepath.Dir(path)
+	fmt.Println("Dir:", dir)
+
+	base := filepath.Base(path)
+	fmt.Println("Base:", base)
+
+	ext := filepath.Ext(path)
+	fmt.Println("Ext:", ext)
+}
+```
+
+### 解説
+- `path/filepath` は、OS に合わせたパス区切り（Unix は `/`、Windows は `\`）でパスを扱います。`filepath.Join` で複数の要素を結合し、余分な区切りや `.` を適切に処理します。
+- `filepath.Dir(path)` はディレクトリ部分（最後の要素より前）、`filepath.Base(path)` は最後の要素（ファイル名など）、`filepath.Ext(path)` は拡張子（`.` を含む）を返します。
+- 文字列で `/` を結合するのではなく、`filepath` を使うことで、クロスプラットフォームで正しいパスを生成・解析できます。

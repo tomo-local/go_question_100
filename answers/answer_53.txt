@@ -1,0 +1,26 @@
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// string 型のチャネルを作成
+	ch := make(chan string)
+
+	go func() {
+		// ゴルーチンからチャネルにメッセージを送信
+		ch <- "Hello from channel!"
+	}()
+
+	// main でチャネルからメッセージを受信して表示
+	msg := <-ch
+	fmt.Println(msg)
+}
+```
+
+### 解説
+- `make(chan string)` で、`string` 型の**非バッファ付き**チャネルを作成します。
+- 送信 `ch <- "Hello from channel!"` と受信 `msg := <-ch` で、ゴルーチン間でデータを渡します。非バッファ付きチャネルでは、送信は受信側が受信するまでブロックします。
+- この例では、`main` が受信で待っているので、ゴルーチンの送信が完了し、メッセージが正しく届きます。チャネルはゴルーチン間の同期とデータ受け渡しの基本です。

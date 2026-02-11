@@ -1,0 +1,28 @@
+`TestMain` でパッケージ全体のセットアップ・ティアダウンを行う例です。
+
+```go
+package main
+
+import (
+	"os"
+	"testing"
+)
+
+func TestMain(m *testing.M) {
+	println("Setup: running tests...")
+	code := m.Run()
+	println("Teardown: tests finished.")
+	os.Exit(code)
+}
+
+func TestSomething(t *testing.T) {
+	if 1+1 != 2 {
+		t.Error("1+1 should be 2")
+	}
+}
+```
+
+### 解説
+- `TestMain(m *testing.M)` を定義すると、そのパッケージのテスト実行の**前後**でこの関数だけが呼ばれます。通常の `TestXxx` は自動では実行されないので、`m.Run()` を呼んでテストを起動します。
+- `m.Run()` の戻り値がテストの終了コード（0 は成功、非0 は失敗）なので、それを `os.Exit(code)` に渡して終了します。`os.Exit` を呼ばないと、フラグやカバレッジなどが正しく反映されないことがあります。
+- セットアップで DB 接続や一時ファイルを作り、ティアダウンで切断や削除を行う、といった使い方ができます。`TestMain` は1パッケージに1つだけ定義します。

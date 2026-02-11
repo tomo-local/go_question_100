@@ -1,0 +1,33 @@
+```go
+package main
+
+import "fmt"
+
+// `interface{}` 型の引数を取る
+func describe(i interface{}) {
+	fmt.Printf("値: %v, 型: %T\n", i, i)
+}
+
+func main() {
+	// describe関数に様々な型の値を渡す
+	
+describe(42)
+	describe("hello")
+	describe(true)
+	describe(3.14)
+	
+type Person struct {
+		Name string
+	}
+	describe(Person{Name: "Alice"})
+}
+```
+
+### 解説
+- **空のインターフェース (`interface{}`)** は、メソッドを一つも持たないインターフェースです。
+- どのような型でも、メソッドを一つも持たないという条件を満たすため、**空のインターフェースは任意の型を表現できます**。
+- これは、関数の引数や戻り値、マップの値などで、型を特定せずに様々な種類の値を扱いたい場合に便利です。
+- ただし、`interface{}` 型の変数から元の値を取り出して操作するには、型アサーションや型スイッチが必要になります。
+- 多用するとコンパイル時の型チェックの恩恵を受けられなくなり、コードの安全性が低下する可能性があるため、本当に必要な場合にのみ使用することが推奨されます。`any` は `interface{}` のエイリアス（別名）であり、Go 1.18以降では `any` を使う方が意図が明確になる場合があります。
+
+```

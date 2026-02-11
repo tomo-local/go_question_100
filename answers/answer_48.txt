@@ -1,0 +1,53 @@
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+// 年齢を検証する関数
+// 戻り値として `error` インターフェースを返す
+func validateAge(age int) error {
+	if age < 0 {
+		// `errors.New` は、単純なエラーメッセージを持つ error 型の値を生成する
+		return errors.New("age cannot be negative")
+	}
+	return nil // エラーがない場合は nil を返す
+}
+
+func main() {
+	// --- 成功するケース ---
+	age1 := 20
+	err1 := validateAge(age1)
+	if err1 != nil {
+		fmt.Printf("年齢 %d の検証に失敗: %v\n", age1, err1)
+	} else {
+		fmt.Printf("年齢 %d は有効です。\n", age1)
+	}
+
+	// --- 失敗するケース ---
+	age2 := -5
+	err2 := validateAge(age2)
+	if err2 != nil {
+		// err2 は nil ではないので、こちらのブロックが実行される
+		fmt.Printf("年齢 %d の検証に失敗: %v\n", age2, err2)
+	} else {
+		fmt.Printf("年齢 %d は有効です。\n", age2)
+	}
+}
+```
+
+### 解説
+- Goでは、エラーを処理するために `try-catch` のような例外機構を使いません。
+- 代わりに、失敗する可能性のある関数は、最後の戻り値として **`error` インターフェース型**の値を返すのが慣習です。
+- `error` は、`Error() string` というメソッド一つだけを持つ、非常にシンプルなインターフェースです。
+  ```go
+  type error interface {
+      Error() string
+  }
+  ```
+- 関数が成功した場合は `nil` を、失敗した場合はエラーの内容を表す `error` 型の値を返します。
+- 呼び出し側は、返された `error` が `nil` かどうかをチェックすることで、処理の成否を判断します。この `if err != nil` というパターンは、Goのコードで最も頻繁に現れるイディオム（慣用句）です。
+
+```

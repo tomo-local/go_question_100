@@ -1,0 +1,54 @@
+```go
+package main
+
+import "fmt"
+
+// カスタムエラー型
+type MyError struct {
+	Code    int
+	Message string
+}
+
+// `error` インターフェースを満たすための `Error()` メソッド
+func (e *MyError) Error() string {
+	return fmt.Sprintf("Error %d: %s", e.Code, e.Message)
+}
+
+// 割り算を行う関数
+func divide(a, b int) (int, error) {
+	if b == 0 {
+		// ゼロ除算の場合、カスタムエラーを返す
+		return 0, &MyError{
+			Code:    1001,
+			Message: "division by zero",
+		}
+	}
+	return a / b, nil
+}
+
+func main() {
+	a, b := 10, 0
+	result, err := divide(a, b)
+
+	if err != nil {
+		fmt.Printf("割り算でエラー発生: %v\n", err)
+
+		// 型アサーションで、エラーが *MyError 型であるかを確認
+		myErr, ok := err.(*MyError)
+		if ok {
+			// カスタムエラーのフィールドにアクセスできる
+			fmt.Println("これはカスタムエラーです。")
+			fmt.Printf("エラーコード: %d\n", myErr.Code)
+			fmt.Printf("エラーメッセージ: %s\n", myErr.Message)
+		}
+	} else {
+		fmt.Printf("%d ÷ %d = %d\n", a, b, result)
+	}
+}
+```
+
+### 解説
+- `errors.New` は単純な文字列しか返せませんが、エラーに関する追加情報（エラーコード、発生時刻など）を持たせたい場合は、**カスタムエラー型**を定義します。
+- `error` インターフェースを満たすために、`Error() string` メソッドを実装します。このメソッドは、`fmt.Println(err)` などでエラーが表示される際に使われます。
+- 呼び出し側では、**型アサーション** `err.(*MyError)` を使って、返された `error` が特定のカスタムエラー型であるかを確認できます。
+- これにより、エラーの種類に応じてより詳細な分岐処理を行うことができます。

@@ -1,0 +1,25 @@
+ヘルパー関数でアサーションをまとめ、`t.Helper()` で失敗時の報告場所を正す例です。
+
+```go
+package main
+
+import "testing"
+
+func assertCorrectMessage(t *testing.T, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
+}
+
+func TestMyFunction(t *testing.T) {
+	got := greet("World")
+	want := "Hello, World!"
+	assertCorrectMessage(t, got, want)
+}
+```
+
+### 解説
+- テスト内で何度も行う比較（例: 文字列の一致）を、`assertCorrectMessage` のようなヘルパーにまとめると、テストコードが短く読みやすくなります。
+- **`t.Helper()`** をヘルパーの先頭で呼ぶと、その関数は「ヘルパー」として扱われ、失敗時に `t.Errorf` が呼ばれた行ではなく、**ヘルパーを呼び出した側の行**がエラー箇所として報告されます。これがないと、常にヘルパー内の行番号が出て、どのテストで失敗したか分かりにくくなります。
+- ヘルパーには `*testing.T` を渡し、失敗時は `t.Errorf` や `t.Fatalf` で報告します。`t` を渡すことで、サブテスト内から呼んでもそのサブテストの失敗として記録されます。

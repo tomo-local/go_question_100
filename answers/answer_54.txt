@@ -1,0 +1,32 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch := make(chan int)
+
+	// 生産者ゴルーチン: 0〜4 を1秒ごとに送信し、最後にチャネルを close
+	go func() {
+		for i := 0; i <= 4; i++ {
+			ch <- i
+			time.Sleep(1 * time.Second)
+		}
+		close(ch)
+	}()
+
+	// 消費者: for-range で受信。チャネルが close されるとループ終了
+	for v := range ch {
+		fmt.Println(v)
+	}
+	fmt.Println("Channel closed, consumer done.")
+}
+```
+
+### 解説
+- **生産者**は値を送信し終えたら `close(ch)` でチャネルを閉じます。閉じるのは送信側だけにし、閉じたチャネルには送信しないのが慣習です。
+- **消費者**は `for v := range ch` で値を受信し続け、チャネルが閉じられるとループが終了します。受信側は「閉じられたか」を意識せずに書けます。
+- このパターンにより、データの流れが一方向で明確になり、複数生産者や複数消費者への拡張も考えやすくなります。

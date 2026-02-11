@@ -1,0 +1,24 @@
+```go
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello, you've hit /hello")
+	})
+	http.HandleFunc("/world", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello, you've hit /world")
+	})
+
+	http.ListenAndServe(":8090", nil)
+}
+```
+
+### 解説
+- `http.HandleFunc(pattern, handler)` で、URL パス `pattern` にマッチしたリクエストを、関数 `handler` で処理できます。ハンドラは `func(http.ResponseWriter, *http.Request)` のシグネチャです。
+- `/hello` と `/world` で別々のメッセージを返すようにしています。2番目の引数に `nil` を渡しているので、`DefaultServeMux` が使われ、ここで登録したパスが有効になります。
+- ポート 8090 で待ち受けるため、起動後に `http://localhost:8090/hello` や `http://localhost:8090/world` にアクセスして動作を確認できます。

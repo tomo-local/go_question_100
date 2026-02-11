@@ -1,0 +1,39 @@
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var (
+	counter int
+	mu      sync.Mutex
+)
+
+func main() {
+	var wg sync.WaitGroup
+	const numGoroutines = 1000
+	const incPerGoroutine = 100
+
+	for i := 0; i < numGoroutines; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < incPerGoroutine; j++ {
+				mu.Lock()
+				counter++
+				mu.Unlock()
+			}
+		}()
+	}
+
+	wg.Wait()
+	fmt.Println("counter =", counter)
+}
+```
+
+### 解説
+- 複数ゴルーチンから同じ変数 `counter` を更新するとき、**データ競合**を防ぐために `sync.Mutex` で排他制御します。`Lock()` と `Unlock()` の間でだけ `counter` を触るようにします。
+- 1000 ゴルーチン × 100 回で 100000 になることを確認します。Mutex なしだと結果が 100000 より小さくなることがあります。
+- `defer wg.Done()` で、panic 時も確実にカウンタを減らします。ロック範囲は「必要な最小限」にすると、並行性が上がります。単純なカウンタなら `sync/atomic` も選択肢です。

@@ -1,0 +1,28 @@
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ch := make(chan int)
+
+	go func() {
+		ch <- 1
+		ch <- 2
+		ch <- 3
+		close(ch)
+	}()
+
+	for v := range ch {
+		fmt.Println(v)
+	}
+	fmt.Println("Channel closed, range loop ended.")
+}
+```
+
+### 解説
+- ゴルーチン側で `1`, `2`, `3` を送信したあと `close(ch)` すると、受信側の `for v := range ch` は 3 つの値を受信した後、4 回目に「閉じられたチャネルからゼロ値と false」を受け取り、ループが終了します。
+- `for range` は「チャネルが閉じられるまで」を簡潔に書けるイディオムです。閉じるのは送信側の責任で、閉じたチャネルには送信しないことが重要です。
+- チャネルを閉じずに `for range` を使うと、受信側が永久にブロックする可能性があるため、閉じる役割をどちらが持つか設計時に決めておきます。

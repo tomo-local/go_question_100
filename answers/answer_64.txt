@@ -1,0 +1,29 @@
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+var once sync.Once
+
+func initialize() {
+	fmt.Println("Initialization completed.")
+}
+
+func main() {
+	for i := 0; i < 5; i++ {
+		go func() {
+			once.Do(initialize)
+		}()
+	}
+	time.Sleep(100 * time.Millisecond)
+}
+```
+
+### 解説
+- `sync.Once` は、`Do(f func())` が**何度呼ばれても、実際に f が実行されるのは1回だけ**であることを保証します。複数ゴルーチンから同時に呼んでも、1回だけ実行されます。
+- シングルトンの初期化、設定の読み込み、一度だけ行う登録処理などに使います。`init` はパッケージ読み込み時に1回ですが、`Once` は「最初に使うとき」の遅延初期化に向いています。
+- 内部で mutex と done フラグで制御されており、初回の `Do` 呼び出しが完了した後は、以降の `Do` は非常に軽いコストで return します。

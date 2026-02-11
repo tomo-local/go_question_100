@@ -1,0 +1,35 @@
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				fmt.Println("worker canceled")
+				return
+			default:
+				fmt.Println("working...")
+				time.Sleep(1 * time.Second)
+			}
+		}
+	}()
+
+	time.Sleep(3 * time.Second)
+	cancel()
+	time.Sleep(500 * time.Millisecond)
+}
+```
+
+### 解説
+- `context.WithCancel(parent)` は、`cancel()` が呼ばれるまで有効なコンテキストを返します。`cancel()` を呼ぶと、そのコンテキストの `Done()` チャネルが閉じます。
+- ワーカーゴルーチンは、ループ内で `select` により `ctx.Done()` を監視し、キャンセルされたら "worker canceled" を表示して return します。キャンセルされていなければ "working..." を1秒ごとに表示します。
+- 3秒後に `main` が `cancel()` を呼ぶことで、ワーカーがきちんと終了することを確認できます。長時間動くゴルーチンの停止手段として、context のキャンセルが標準的なパターンです。

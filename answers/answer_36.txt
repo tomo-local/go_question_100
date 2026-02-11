@@ -1,0 +1,41 @@
+```go
+package main
+
+import "fmt"
+
+// `func() int` 型の関数を返す
+func incrementer() func() int {
+	// `i` はクロージャによって "キャプチャ" される
+	i := 0
+	
+	// 無名関数を返す
+	return func() int {
+		i++
+		return i
+	}
+}
+
+func main() {
+	// incrementerを呼び出して、カウンター関数を取得
+	// この時点で、内部変数 i=0 を持つインスタンスが生成される
+	counter1 := incrementer()
+
+	// 呼び出すたびに、同じ i がインクリメントされる
+	fmt.Println(counter1()) // 1
+	fmt.Println(counter1()) // 2
+	fmt.Println(counter1()) // 3
+
+	fmt.Println("--- 新しいカウンター ---")
+
+	// もう一度 incrementer を呼び出すと、新しい i を持つ別のインスタンスが生成される
+	counter2 := incrementer()
+	fmt.Println(counter2()) // 1
+	fmt.Println(counter2()) // 2
+}
+```
+
+### 解説
+- **クロージャ (Closure)** とは、関数とその関数がアクセスできる「語彙的環境（lexical environment）」を組み合わせたものです。
+- 簡単に言うと、`incrementer` が返した無名関数は、それが定義されたスコープにある変数 `i` を「覚えていて」、参照し続けることができます。
+- この `i` は、`incrementer` 関数の実行が終了した後も、返された無名関数（この例では `counter1`）が生きている限り、メモリ上に保持されます。
+- これにより、状態を持つ関数を簡単に作成することができます。

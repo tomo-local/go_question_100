@@ -1,0 +1,22 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	timer := time.NewTimer(2 * time.Second)
+
+	select {
+	case <-timer.C:
+		fmt.Println("Timer expired!")
+	}
+}
+```
+
+### 解説
+- `time.NewTimer(d)` は、`d` 経過後に1度だけ現在時刻を送るチャネル `timer.C` を返します。`select` で `<-timer.C` を待つと、2秒後に "Timer expired!" が表示されます。
+- 発火前にキャンセルするには `timer.Stop()` を使います。戻り値は「停止できたか」で、既に発火していた場合は `false` です。その場合、`timer.C` から値を取り除いておかないとチャネルが残り続けるので、`if !timer.Stop() { <-timer.C }` のようにします。
+- キー入力で停止する応用では、`select` で `timer.C` とキー入力用のチャネル（または別ゴルーチン）の両方を待ち、入力があれば `timer.Stop()` で止める形にします。

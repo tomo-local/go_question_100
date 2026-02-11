@@ -1,0 +1,22 @@
+`Example` 関数は、標準出力と `// Output:` コメントで期待出力を書くと、`go test` で出力が検証されます。
+
+```go
+package main
+
+import "fmt"
+
+func add(a, b int) int {
+	return a + b
+}
+
+func ExampleAdd() {
+	fmt.Println(add(2, 3))
+	// Output:
+	// 5
+}
+```
+
+### 解説
+- `Example` で始まる関数（例: `ExampleAdd`）は、godoc の「Example」として表示され、`go test` 実行時に「実際の標準出力」と「`// Output:` の直後に書いた期待出力」が一致するか検証されます。
+- 一致しないとテスト失敗になります。複数行の場合は、`// Output:` の次の行から期待する出力を1行ずつコメントで書きます。空行も含める場合は空のコメント行を入れます。
+- 出力の順序が不定な場合は `// Unordered output:` を使うと、行の集合として一致すればよいとみなされます。Example はドキュメント兼実行可能なテストとして重宝します。

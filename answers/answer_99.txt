@@ -1,0 +1,18 @@
+`go generate` は、ソース内の `//go:generate` コメントに書いたコマンドを、`go generate` 実行時にそのディレクトリで走らせる仕組みです。
+
+**main.go（先頭付近に1行）:**
+```go
+//go:generate echo "Hello from go generate!"
+
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello from main")
+}
+```
+
+- プロジェクトのルート（または該当パッケージのディレクトリ）で `go generate` を実行すると、`echo "Hello from go generate!"` が実行され、コンソールにそのメッセージが表示されます。
+- `//go:generate` の行には、シェルで実行できるコマンドを書きます。複数行あると、行ごとにコマンドが実行されます。`stringer` のように、型定義から `String()` メソッドを生成するツールをここから呼び、生成コードをコミットする運用がよくあります。
+- あくまで「開発者が手動で `go generate` を叩く」前提の仕組みで、ビルド時には自動では実行されません。Makefile や CI で `go generate ./...` を実行する場合もあります。

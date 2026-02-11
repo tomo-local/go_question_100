@@ -1,0 +1,30 @@
+`add` 関数と、それをテストする `_test.go` の例です。テストは `*_test.go` に記述し、`go test` で実行します。
+
+**main.go（または add が定義されているファイル）:**
+```go
+package main
+
+func add(a, b int) int {
+	return a + b
+}
+```
+
+**main_test.go:**
+```go
+package main
+
+import "testing"
+
+func TestAdd(t *testing.T) {
+	got := add(2, 3)
+	want := 5
+	if got != want {
+		t.Errorf("add(2, 3) = %d; want %d", got, want)
+	}
+}
+```
+
+### 解説
+- テストファイルは `_test.go` で終わり、`testing` パッケージを import します。テスト関数は `TestXxx(t *testing.T)` という名前で、`t` を使って失敗報告をします。
+- 期待値 `want` と実際の結果 `got` を比較し、異なれば `t.Errorf` でメッセージを出します。`Errorf` はテストを失敗させますが、その後のコードも実行されます。そこで return するか、即終了させたい場合は `t.Fatalf` を使います。
+- 同じパッケージ内に `add` とテストを置く場合、`package main` のまま `main_test.go` を書けます。`go test` を実行すると、`TestAdd` が走り、`add(2, 3)` が 5 であることを検証します。

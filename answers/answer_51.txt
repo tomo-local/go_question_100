@@ -1,0 +1,25 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// go キーワードで新しいゴルーチンを開始
+	go func() {
+		fmt.Println("Hello from goroutine!")
+	}()
+
+	fmt.Println("Hello from main function!")
+
+	// ゴルーチンの表示が完了するまで待機（実務では sync.WaitGroup などを推奨）
+	time.Sleep(1 * time.Second)
+}
+```
+
+### 解説
+- `go` キーワードに続けて関数呼び出し（または無名関数）を書くと、その関数が**別のゴルーチン**で非同期に実行されます。
+- メインゴルーチン（`main`）が終了するとプログラム全体が終了するため、この例では `time.Sleep(1 * time.Second)` で1秒待ち、サブゴルーチンの出力が表示されるようにしています。
+- 本番では、ゴルーチンの完了待ちには `sync.WaitGroup` やチャネルを使うのが一般的です。`time.Sleep` はあくまで説明用の簡易的な方法です。

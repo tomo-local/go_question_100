@@ -1,0 +1,29 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	n := 2
+
+	switch n {
+	case 1:
+		fmt.Println("One")
+	case 2:
+		fmt.Println("Two")
+	case 3:
+		fmt.Println("Three")
+	default:
+		fmt.Println("Other")
+	}
+}
+```
+
+### 解説
+- Goの `switch` は、他の言語と異なり、マッチした `case` の終わりに自動的に `break` されるという特徴があります。つまり、次の `case` に処理が移る（フォールスルーする）ことはありません。
+- もし意図的にフォールスルーさせたい場合は、`fallthrough` キーワードを明示的に記述します。
+- `case` には複数の値をカンマ区切りで指定することもできます。
+  ```go
+  case 2, 4, 6, 8:
+      fmt.Println("Even number")
+  ```

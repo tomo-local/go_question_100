@@ -1,0 +1,23 @@
+```go
+package main
+
+import (
+	"fmt"
+	"os/exec"
+)
+
+func main() {
+	cmd := exec.Command("ls", "-a", "-l", "-h")
+	out, err := cmd.Output()
+	if err != nil {
+		fmt.Println("exec error:", err)
+		return
+	}
+	fmt.Println(string(out))
+}
+```
+
+### 解説
+- `exec.Command(name, arg...)` で外部コマンドのオブジェクトを作成します。コマンド名と引数は**別々**に渡し、シェル経由にしないことでインジェクションを防ぎます。シェルで実行したい場合は `exec.Command("sh", "-c", "ls -a -l -h")` のようにします。
+- `Output()` はコマンドを実行し、標準出力をまとめて `[]byte` で返します。終了コードが 0 でない場合は `ExitError` が返ります。標準エラーは `Output()` の戻り値には含まれません。標準エラーも取りたい場合は `CombinedOutput()` を使います。
+- Windows では `ls` が無いため、`exec.Command("cmd", "/C", "dir")` などに読み替えます。クロスプラットフォームにする場合は、実行するコマンドを OS で分岐させます。

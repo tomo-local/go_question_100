@@ -1,0 +1,27 @@
+```go
+package main
+
+import (
+	"fmt"
+	"regexp"
+)
+
+func main() {
+	re, err := regexp.Compile(`a `)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	s1 := re.ReplaceAllString("a peach", "an ")
+	s2 := re.ReplaceAllString("a banana", "an ")
+
+	fmt.Println(s1)
+	fmt.Println(s2)
+}
+```
+
+### 解説
+- `regexp.Compile(pattern)` で正規表現をコンパイルし、`*regexp.Regexp` を取得します。このオブジェクトの `ReplaceAllString(src, repl)` は、`src` のうちパターンにマッチする部分をすべて `repl` に置き換えた文字列を返します。
+- パターン `a `（"a" とスペース）にマッチする部分を "an " に置き換えるので、"a peach" → "an peach"、"a banana" → "an banana" になります。
+- キャプチャグループを使う場合は `ReplaceAllStringFunc` や `ReplaceAllString` の `$1` などの置換参照が使えます。正規表現オブジェクトを再利用することで、同じパターンでの繰り返し処理が効率的になります。

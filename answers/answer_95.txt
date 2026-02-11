@@ -1,0 +1,48 @@
+### インターフェースを使ったテストの設計
+
+**問題点:** テスト対象が `*sql.DB` のような具象型に直接依存していると、テストで本物の DB を用意するか、差し替えが難しくなります。
+
+**解決策:** データアクセスをインターフェースで抽象化し、本番では具象型をラップ、テストではモックを渡します（依存性逆転）。
+
+**コード例:**
+```go
+package main
+
+type Datastore interface {
+	GetUser(id int) string
+}
+
+type App struct {
+	store Datastore
+}
+
+func (a *App) ShowUser(id int) string {
+	return a.store.GetUser(id)
+}
+
+// 本番: *sql.DB をラップした構造体が Datastore を実装
+// テスト: モックが Datastore を実装
+type MockDatastore struct {
+	Users map[int]string
+}
+
+func (m *MockDatastore) GetUser(id int) string {
+	return m.Users[id]
+}
+
+// テスト
+func TestApp_ShowUser(t *testing.T) {
+	app := &App{store: &MockDatastore{Users: map[int]string{1: "Alice"}}}
+	got := app.ShowUser(1)
+	if got != "Alice" {
+		t.Errorf("ShowUser(1) = %q; want Alice", got)
+	}
+}
+```
+
+**利点:**
+- テストで DB やネットワークが不要になり、高速で安定したテストが書ける。
+- インターフェースが「必要な操作」だけを表すので、本番実装の詳細（SQL や API）にテストが縛られない。
+- 新しい実装（別 DB、キャッシュ層など）を追加するときも、同じインターフェースを満たすだけで済む。
+
+このように「具象ではなくインターフェースに依存する」設計が、Go でテスト容易性を高める典型的なやり方です。

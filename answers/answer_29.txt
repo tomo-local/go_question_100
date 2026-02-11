@@ -1,0 +1,42 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	m := map[string]int{"one": 1, "two": 2}
+
+	// for <キー>, <値> := range <マップ> { ... }
+	for key, value := range m {
+		fmt.Printf("Key: %s, Value: %d\n", key, value)
+	}
+}
+```
+
+### 実行結果の例
+```
+Key: one, Value: 1
+Key: two, Value: 2
+```
+または
+```
+Key: two, Value: 2
+Key: one, Value: 1
+```
+
+### 解説
+- `for-range` をマップに使うと、各反復で**キー**と**値**を返します。
+- **重要**: マップの反復処理の順序は、Goの仕様で**保証されていません**。プログラムを実行するたびに、キーと値が返される順序は変わる可能性があります。
+- もしキーの順序でマップを処理したい場合は、まずキーだけをスライスに抽出し、そのスライスを `sort` パッケージでソートしてから、ソートされたスライスを `for` ループで処理する必要があります。
+  ```go
+  var keys []string
+  for k := range m {
+      keys = append(keys, k)
+  }
+  sort.Strings(keys)
+  for _, k := range keys {
+      fmt.Println("Key:", k, "Value:", m[k])
+  }
+  ```
+
+```

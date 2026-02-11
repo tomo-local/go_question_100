@@ -1,0 +1,39 @@
+ビルドタグで「タグ付きのときだけコンパイルするファイル」を分ける例です。
+
+**main.go:**
+```go
+package main
+
+func main() {
+	PrintWithoutTag()
+	PrintWithTag()
+}
+```
+
+**without_tag.go:**
+```go
+package main
+
+import "fmt"
+
+func PrintWithoutTag() {
+	fmt.Println("File without any tag")
+}
+```
+
+**with_tag.go**（先頭に `//go:build mytag` を付ける）:
+```go
+//go:build mytag
+
+package main
+
+import "fmt"
+
+func PrintWithTag() {
+	fmt.Println("File with mytag")
+}
+```
+
+- `go run .` や `go build .` では、`//go:build mytag` のファイルは**無視**されます。そのため `PrintWithTag` を呼ぶ `main` は、タグなしだと「未定義」でコンパイルエラーになります。
+- `go run -tags=mytag .` や `go build -tags=mytag` とすると、`mytag` が付いたファイルもコンパイル対象になり、`PrintWithTag` が定義され、両方のメッセージが表示されます。
+- ビルドタグは、OS やアーキテクチャ別の実装（`//go:build linux`）、デバッグ用コードの有無（`//go:build debug`）などに使われます。

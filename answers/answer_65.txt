@@ -1,0 +1,35 @@
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"sync/atomic"
+)
+
+var ops uint64
+
+func main() {
+	var wg sync.WaitGroup
+	const numGoroutines = 50
+	const incPerGoroutine = 1000
+
+	for i := 0; i < numGoroutines; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < incPerGoroutine; j++ {
+				atomic.AddUint64(&ops, 1)
+			}
+		}()
+	}
+
+	wg.Wait()
+	fmt.Println("ops =", ops)
+}
+```
+
+### 解説
+- `sync/atomic` は、**アトミック（不可分）操作**を提供します。`atomic.AddUint64(&ops, 1)` は、複数ゴルーチンから呼んでも競合せずに `ops` を1増やします。
+- Mutex を使うと「ロック取得 → 加算 → ロック解放」のオーバーヘッドがあります。atomic は CPU の原子命令を使うため、単純なカウンタやフラグではしばしば高速です。
+- 複合的な更新（「読んでから書く」など）は atomic だけでは表現しづらいため、その場合は Mutex や channel を使います。単純なインクリメントやフラグの切り替えには atomic が向いています。

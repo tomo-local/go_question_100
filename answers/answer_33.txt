@@ -1,0 +1,30 @@
+```go
+package main
+
+import "fmt"
+
+// 戻り値に名前を付ける (quotient, remainder)
+func divmod(a, b int) (quotient, remainder int) {
+	quotient = a / b
+	remainder = a % b
+	// 引数のない `return` 文 (naked return)
+	return
+}
+
+func main() {
+	q, r := divmod(10, 3)
+	fmt.Printf("10 ÷ 3 = 商 %d, 余り %d\n", q, r)
+}
+```
+
+### 解説
+- **名前付き戻り値 (Named Return Values)** を使うと、戻り値の変数をあらかじめ宣言できます。
+- これらの変数は関数内でローカル変数のように扱うことができ、関数スコープの冒頭でそれぞれの型のゼロ値に初期化されます。
+- 関数内でこれらの変数に値を代入すれば、引数なしの `return` 文（**naked return**）だけで、これらの変数の現在の値を返すことができます。
+- **利点**:
+  - `godoc` などでドキュメントを生成した際に、戻り値が何であるかが明確になります。
+- **注意点**:
+  - 小さな関数では便利ですが、関数が大きくなると、どの変数がどのタイミングで返されるのかが分かりにくくなる可能性があります。
+  - `naked return` の乱用は可読性を損なうことがあるため、短い関数での使用に留めるのが一般的です。
+
+```

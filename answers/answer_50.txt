@@ -1,0 +1,30 @@
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"strings"
+)
+
+func main() {
+	// strings.NewReader で文字列から io.Reader を生成
+	r := strings.NewReader("Hello, io.Reader!")
+
+	// io.ReadAll でリーダーから全データをバイトスライスとして読み込み
+	data, err := io.ReadAll(r)
+	if err != nil {
+		fmt.Printf("読み込みエラー: %v\n", err)
+		return
+	}
+
+	// バイトスライスを文字列に変換して表示
+	fmt.Println(string(data))
+}
+```
+
+### 解説
+- `io.Reader` は「データを読み出すソース」を抽象化するインターフェースです。`Read(p []byte) (n int, err error)` メソッドを持ちます。
+- `strings.NewReader(s string) *strings.Reader` は、文字列を `io.Reader` を満たす `*strings.Reader` にします。ファイル・ネットワーク・文字列など、ソースが違っても同じ `io.Reader` として扱えます。
+- `io.ReadAll(r io.Reader) ([]byte, error)`（Go 1.16以降）は、リーダーから EOF まで読み、全データを `[]byte` で返します。メモリに載る程度のサイズ向けです。
+- このように、`io.Reader` を使うことで「どこから読むか」を抽象化し、同じコードで様々な入力ソースを扱えます。

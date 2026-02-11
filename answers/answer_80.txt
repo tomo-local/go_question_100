@@ -1,0 +1,44 @@
+```go
+package main
+
+import (
+	"encoding/csv"
+	"fmt"
+	"os"
+)
+
+func main() {
+	records := [][]string{
+		{"first_name", "last_name", "username"},
+		{"Rob", "Pike", "rob"},
+		{"Ken", "Thompson", "ken"},
+		{"Robert", "Griesemer", "gri"},
+	}
+
+	f, err := os.Create("users.csv")
+	if err != nil {
+		fmt.Println("Create error:", err)
+		return
+	}
+	defer f.Close()
+
+	w := csv.NewWriter(f)
+	for _, record := range records {
+		if err := w.Write(record); err != nil {
+			fmt.Println("Write error:", err)
+			return
+		}
+	}
+	w.Flush()
+	if err := w.Error(); err != nil {
+		fmt.Println("Writer error:", err)
+		return
+	}
+	fmt.Println("Wrote users.csv")
+}
+```
+
+### 解説
+- `csv.NewWriter(w io.Writer)` で、`io.Writer` に CSV を書き込むライターを作成します。`Write(record []string)` で1行（各フィールドのスライス）を書き込みます。
+- データはバッファに溜まるため、書き込みを終えたら `Flush()` を呼び、バッファをファイルに書き出します。`Flush()` 後は `Error()` で書き込みエラーを確認できます。
+- フィールドにカンマや改行が含まれる場合は、ライターが自動でクォートしてくれます。`users.csv` を開くと、ヘッダーと3行のデータが CSV 形式で保存されていることを確認できます。

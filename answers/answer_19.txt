@@ -1,0 +1,39 @@
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	str := "Go programming language"
+	fmt.Printf("対象の文字列: \"%s\"\n\n", str)
+
+	// 1. 文字列に "pro" が含まれているか
+	containsPro := strings.Contains(str, "pro")
+	fmt.Printf("\"pro\" は含まれているか？ -> %t\n", containsPro)
+
+	// 2. 文字列が "Go" で始まっているか
+	hasPrefixGo := strings.HasPrefix(str, "Go")
+	fmt.Printf("\"Go\" で始まっているか？ -> %t\n", hasPrefixGo)
+
+	// 参考: 接尾辞のチェック
+	hasSuffixLang := strings.HasSuffix(str, "language")
+	fmt.Printf("\"language\" で終わっているか？ -> %t\n", hasSuffixLang)
+}
+```
+
+### 解説
+- `strings.Contains(s, substr string) bool`:
+  - 文字列 `s` の中に、部分文字列 `substr` が含まれていれば `true` を返します。
+
+- `strings.HasPrefix(s, prefix string) bool`:
+  - 文字列 `s` が、指定された接頭辞 `prefix` で始まっていれば `true` を返します。
+
+- `strings.HasSuffix(s, suffix string) bool`:
+  - 文字列 `s` が、指定された接尾辞 `suffix` で終わっていれば `true` を返します。
+
+これらの関数は、文字列の基本的な検証や検索に非常に便利で、大文字と小文字を区別します。
+
+```

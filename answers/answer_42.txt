@@ -1,0 +1,37 @@
+```go
+package main
+
+import "fmt"
+
+// `int` 型を基にした新しい型 `MyInt` を定義
+type MyInt int
+
+// `MyInt` 型に対する `isEven` メソッド
+func (m MyInt) isEven() bool {
+	return m%2 == 0
+}
+
+func main() {
+	var num MyInt = 10
+
+	if num.isEven() {
+		fmt.Printf("%d は偶数です。\n", num)
+	} else {
+		fmt.Printf("%d は奇数です。\n", num)
+	}
+
+	var anotherNum MyInt = 7
+	if anotherNum.isEven() {
+		fmt.Printf("%d は偶数です。\n", anotherNum)
+	} else {
+		fmt.Printf("%d は奇数です。\n", anotherNum)
+	}
+}
+```
+
+### 解説
+- Goでは、`struct` だけでなく、`type MyType OriginalType` のようにして定義した任意のカスタム型に対してもメソッドを追加することができます。（ただし、ポインタ型やインターフェース型を基にした型には直接追加できません）
+- この例では、`MyInt` は基の `int` 型の性質（数値計算など）をすべて持っていますが、`isEven()` という独自のメソッドを持つ、`int` とは区別される新しい型として扱われます。
+- これにより、`int` 自体を汚染することなく、特定のドメインに特化した振る舞いを型に追加することができます。
+
+```

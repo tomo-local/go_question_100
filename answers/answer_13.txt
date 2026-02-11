@@ -1,0 +1,48 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	// 1. make を使ってマップを初期化
+	// var prices map[string]int と宣言だけした場合、マップはnilであり、値を追加できない
+	prices := make(map[string]int)
+
+	// 2. キー "apple" を追加
+	prices["apple"] = 100
+	fmt.Println("appleを追加:", prices)
+
+	// 3. キー "banana" を追加
+	prices["banana"] = 200
+	fmt.Println("bananaを追加:", prices)
+
+	// 4. キー "apple" の値を取得
+	applePrice := prices["apple"]
+	fmt.Printf("appleの価格: %d\n", applePrice)
+
+	// 存在しないキーにアクセスすると、値型のゼロ値が返る
+	orangePrice := prices["orange"]
+	fmt.Printf("orangeの価格: %d\n", orangePrice) // 0 が表示される
+
+	// キーの存在を安全にチェックする方法
+	price, ok := prices["orange"]
+	if ok {
+		fmt.Printf("orangeの価格は %d です。\n", price)
+	} else {
+		fmt.Println("orangeはマップに存在しません。")
+	}
+
+	// 5. for-range ループですべてのキーと値を表示
+	fmt.Println("--- すべての価格 ---")
+	// 注意: マップの反復処理の順序は保証されない
+	for key, value := range prices {
+		fmt.Printf("Key: %s, Value: %d\n", key, value)
+	}
+}
+```
+
+### 解説
+- マップは参照型です。`make` で初期化するまで `nil` であり、`nil` のマップに値を書き込もうとするとパニックが発生します。
+- `value, ok := myMap[key]` という形式でアクセスすると、キーが存在した場合に `ok` が `true` になります。キーの存在確認に非常に便利です。
+
+```

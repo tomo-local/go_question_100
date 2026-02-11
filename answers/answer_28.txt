@@ -1,0 +1,34 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	slice := []string{"a", "b", "c"}
+
+	// for <インデックス>, <値> := range <スライス> { ... }
+	for index, value := range slice {
+		fmt.Printf("Index: %d, Value: %s\n", index, value)
+	}
+
+	// 値だけが必要な場合
+	fmt.Println("--- 値のみ ---")
+	for _, value := range slice {
+		fmt.Println(value)
+	}
+
+	// インデックスだけが必要な場合
+	fmt.Println("--- インデックスのみ ---")
+	for index := range slice {
+		fmt.Println(index)
+	}
+}
+```
+
+### 解説
+- `for-range` ループは、スライス、配列、マップ、文字列、チャネルなどのデータ構造を反復処理するための、Go独自の便利な構文です。
+- スライスや配列に対して使うと、各反復で**インデックス**と**そのインデックスに対応する値のコピー**を返します。
+- インデックスや値が不要な場合は、`_`（ブランク識別子）を使って明示的に無視することができます。
+- **注意**: `range` が返す `value` は、スライスの要素の**コピー**です。ループ内で `value` の値を変更しても、元のスライスの要素は変更されません。元の要素を変更したい場合は、`slice[index]` を使って直接アクセスする必要があります。
+
+```

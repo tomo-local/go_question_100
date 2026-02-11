@@ -1,0 +1,38 @@
+```go
+package main
+
+import "fmt"
+
+// Rectangle 構造体
+type Rectangle struct {
+	width  int
+	height int
+}
+
+// Rectangle型に属する Area メソッド
+// `(r Rectangle)` の部分を「レシーバ」と呼ぶ
+func (r Rectangle) Area() int {
+	return r.width * r.height
+}
+
+func main() {
+	// Rectangleのインスタンスを作成
+	rect := Rectangle{width: 10, height: 5}
+
+	// Areaメソッドを呼び出す
+	area := rect.Area()
+
+	fmt.Printf("長方形 (幅: %d, 高さ: %d) の面積は %d です。\n", rect.width, rect.height, area)
+}
+```
+
+### 解説
+- **メソッド**は、特定の型（この場合は `Rectangle`）に関連付けられた関数です。
+- `func (r Rectangle) Area() int` の `(r Rectangle)` の部分を**レシーバ**と呼びます。
+  - `r` はレシーバ変数（慣習的に型の頭文字や短い名前が使われる）
+  - `Rectangle` はレシーバの型
+- レシーバ変数を介して、その型のフィールド（`r.width`, `r.height`）にアクセスできます。
+- 呼び出す際は、`インスタンス.メソッド名()` のように、ドット `.` を使って呼び出します。
+- 関数とメソッドの違いは、レシーバを持つかどうかです。メソッドは常に特定の型のコンテキストで動作します。
+
+```

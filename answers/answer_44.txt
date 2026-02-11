@@ -1,0 +1,56 @@
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+// Shape インターフェースの定義
+type Shape interface {
+	Area() float64
+}
+
+// Rectangle 構造体
+type Rectangle struct {
+	width, height float64
+}
+
+// Circle 構造体
+type Circle struct {
+	radius float64
+}
+
+// RectangleがShapeインターフェースを満たすようにAreaメソッドを実装
+func (r Rectangle) Area() float64 {
+	return r.width * r.height
+}
+
+// CircleがShapeインターフェースを満たすようにAreaメソッドを実装
+func (c Circle) Area() float64 {
+	return math.Pi * c.radius * c.radius
+}
+
+// Shapeインターフェースを引数に取ることで、具体的な型（RectangleやCircle）を意識せずに処理を記述できる
+func printArea(s Shape) {
+	fmt.Printf("%T の面積: %0.2f\n", s, s.Area())
+}
+
+func main() {
+	rect := Rectangle{width: 10, height: 5}
+	circ := Circle{radius: 5}
+
+	// printAreaはShapeインターフェースを受け取るので、
+	// RectangleとCircleの両方のインスタンスを渡すことができる
+	printArea(rect)
+	printArea(circ)
+}
+```
+
+### 解説
+- **インターフェース**は、メソッドのシグネチャ（名前、引数、戻り値）の集まりを定義したものです。具体的な実装は持ちません。
+- ある型が、インターフェースで定義された**すべてのメソッド**を実装していれば、その型は「そのインターフェースを満たす（実装する）」と言います。Goでは `implements` のような明示的なキーワードは不要です（これをダックタイピングと呼びます）。
+- この例では、`Rectangle` と `Circle` は両方とも `Area() float64` メソッドを持っているので、どちらも `Shape` インターフェースを満たします。
+- これにより、`printArea` のように、インターフェースを引数に取る関数を書くことができます。この関数は、具体的な型が何であるかを気にすることなく、インターフェースで定義されたメソッド（この場合は `Area()`）を呼び出すことができます。これはポリモーフィズム（多態性）の実現方法です。
+
+```

@@ -1,0 +1,30 @@
+`t.Run` でサブテストに分ける例です。どのケースが失敗したかが分かりやすくなります。
+
+```go
+package main
+
+import "testing"
+
+func TestAdd(t *testing.T) {
+	t.Run("positive numbers", func(t *testing.T) {
+		got := add(2, 3)
+		want := 5
+		if got != want {
+			t.Errorf("add(2, 3) = %d; want %d", got, want)
+		}
+	})
+
+	t.Run("negative numbers", func(t *testing.T) {
+		got := add(-2, -3)
+		want := -5
+		if got != want {
+			t.Errorf("add(-2, -3) = %d; want %d", got, want)
+		}
+	})
+}
+```
+
+### 解説
+- `t.Run(name string, f func(t *testing.T))` は、名前付きのサブテストを実行します。`go test -v` で実行すると、サブテスト名（"positive numbers" など）が表示され、どのケースが失敗したかが一目で分かります。
+- サブテストは並列実行（`t.Run` 内で `t.Parallel()` を呼ぶ）や、特定のサブテストだけ実行（`go test -run TestAdd/positive`）にも対応しています。
+- 一つのテスト関数で複数パターンを試す場合に、サブテストで整理すると可読性と保守性が上がります。

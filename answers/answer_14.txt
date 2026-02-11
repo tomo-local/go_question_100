@@ -1,0 +1,39 @@
+```go
+package main
+
+import "fmt"
+
+// Person 構造体の定義
+type Person struct {
+	Name string
+	Age  int
+}
+
+func main() {
+	// 構造体のインスタンス（実体）を作成
+	
+	// 1. フィールド名を指定して初期化
+	p1 := Person{Name: "Alice", Age: 30}
+	fmt.Printf("p1: %+v\n", p1) // %+v でフィールド名付きで表示
+
+	// 2. フィールド名を省略して初期化（順序が重要）
+	p2 := Person{"Bob", 25}
+	fmt.Printf("p2: %+v\n", p2)
+
+	// 3. ゼロ値で初期化してからフィールドに代入
+	var p3 Person
+	p3.Name = "Charlie"
+	p3.Age = 35
+	fmt.Printf("p3: %+v\n", p3)
+	
+	// フィールドへのアクセス
+	fmt.Printf("%sさんの年齢は %d 歳です。\n", p1.Name, p1.Age)
+}
+```
+
+### 解説
+- `struct` は、関連するデータを一つのまとまりとして扱うためのカスタムデータ型を定義するのに使います。
+- `.`（ドット）演算子を使って、構造体の各フィールドにアクセスします。
+- 構造体の初期化にはいくつかの方法がありますが、フィールド名を指定する方法 (`Person{Name: "...", Age: ...}`) が、コードの可読性と保守性の観点から最も推奨されます。
+
+```

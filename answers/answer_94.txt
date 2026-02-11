@@ -1,0 +1,43 @@
+インターフェースで「ユーザー取得」を抽象化し、テストではモックを渡す例です。
+
+```go
+package main
+
+import (
+	"fmt"
+	"testing"
+)
+
+type UserFetcher interface {
+	Fetch(userID int) (string, error)
+}
+
+type MockUserFetcher struct {
+	UserName string
+	Err      error
+}
+
+func (m *MockUserFetcher) Fetch(userID int) (string, error) {
+	return m.UserName, m.Err
+}
+
+func GetUser(fetcher UserFetcher, id int) (string, error) {
+	return fetcher.Fetch(id)
+}
+
+func TestGetUser(t *testing.T) {
+	mock := &MockUserFetcher{UserName: "Alice", Err: nil}
+	got, err := GetUser(mock, 1)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if got != "Alice" {
+		t.Errorf("GetUser(mock, 1) = %q; want %q", got, "Alice")
+	}
+}
+```
+
+### 解説
+- `UserFetcher` インターフェースを定義し、本番では DB にアクセスする実装、テストでは `MockUserFetcher` を渡すことで、テストが DB に依存しなくなります。
+- モックは「呼ばれたらこの値を返す」ようにフィールドで設定します。エラーを検証したい場合は `Err` を設定し、`GetUser` の戻り値の `err` をアサートします。
+- このように「依存をインターフェースにしておき、テストで差し替える」パターンは、Go でテスト容易性を高める基本的な方法です。

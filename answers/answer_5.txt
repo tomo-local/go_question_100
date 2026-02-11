@@ -1,0 +1,26 @@
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func main() {
+	x := 3.14
+
+	ceilValue := math.Ceil(x)
+	floorValue := math.Floor(x)
+
+	fmt.Printf("元の値: %f\n", x)
+	fmt.Printf("Ceil (切り上げ): %f\n", ceilValue)
+	fmt.Printf("Floor (切り捨て): %f\n", floorValue)
+}
+```
+
+### 解説
+- `math.Ceil(x)`: `x` 以上の最小の整数値を `float64` 型で返します（切り上げ）。
+- `math.Floor(x)`: `x` 以下の最大の整数値を `float64` 型で返します（切り捨て）。
+- 浮動小数点数を整数に丸める際に、どの方向に丸めるかを明示的に制御したい場合に使用します。
+
+```

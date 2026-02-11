@@ -1,0 +1,18 @@
+```go
+package main
+
+import "fmt"
+
+func init() {
+	fmt.Println("init function called")
+}
+
+func main() {
+	fmt.Println("main function called")
+}
+```
+
+### 解説
+- `init` は、パッケージが初期化されるときに**自動で1回**呼ばれる関数です。`main` より前に実行されます。引数も戻り値も持てません。
+- 実行すると、先に "init function called"、その後に "main function called" と表示されます。依存関係にあるパッケージの `init` は、そのパッケージの import 解決順に実行され、最後に `main` パッケージの `init` が実行されたあと `main` が呼ばれます。
+- **複数の `init`**: 同一パッケージ内に複数の `init` を書くと、**ファイル内の出現順（ソースの上から下）**で実行されます。ファイル間の順序は言語仕様では保証されていないため、`init` 同士の依存は避け、必要な初期化は `main` や明示的な関数で行う方が安全です。

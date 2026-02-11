@@ -1,0 +1,46 @@
+```go
+package main
+
+import "fmt"
+
+// add関数
+func add(a, b int) int {
+	return a + b
+}
+
+// subtract関数
+func subtract(a, b int) int {
+	return a - b
+}
+
+// `f` という名前で、`func(int, int) int` 型の関数を引数として受け取る
+func calc(a, b int, f func(int, int) int) int {
+	// 受け取った関数 `f` を実行
+	result := f(a, b)
+	return result
+}
+
+func main() {
+	// 1. `calc` 関数に `add` 関数を渡す
+	sum := calc(10, 5, add)
+	fmt.Printf("足し算の結果: %d\n", sum)
+
+	// 2. `calc` 関数に `subtract` 関数を渡す
+	difference := calc(10, 5, subtract)
+	fmt.Printf("引き算の結果: %d\n", difference)
+	
+	// 3. 無名関数をその場で定義して渡す
+	product := calc(10, 5, func(a, b int) int {
+		return a * b
+	})
+	fmt.Printf("掛け算の結果: %d\n", product)
+}
+```
+
+### 解説
+- Goでは、関数は「第一級オブジェクト」です。つまり、変数に代入したり、他の関数の引数として渡したり、戻り値として返したりすることができます。
+- `func(int, int) int` は、「`int` 型の引数を2つ取り、`int` を返す関数」という**関数型**を表します。
+- この機能により、処理の一部を外部から注入する「ストラテジーパターン」のような設計が簡単に実現できます。
+- その場で関数を定義して渡す「無名関数（または関数リテラル）」も頻繁に使われます。
+
+```

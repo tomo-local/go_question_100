@@ -1,0 +1,36 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	c1 := make(chan string)
+	c2 := make(chan string)
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		c1 <- "one"
+	}()
+	go func() {
+		time.Sleep(1 * time.Second)
+		c2 <- "two"
+	}()
+
+	for i := 0; i < 2; i++ {
+		select {
+		case msg1 := <-c1:
+			fmt.Println("received", msg1)
+		case msg2 := <-c2:
+			fmt.Println("received", msg2)
+		}
+	}
+}
+```
+
+### 解説
+- `select` は、複数のチャネル操作のうち**準備ができたもの**を1つ選んで実行します。どれも準備できていなければ、いずれかが準備できるまでブロックします。
+- この例では c2 が約1秒、c1 が約2秒で送信されるため、多くの環境では先に "two"、次に "one" が表示されます。順序はスケジューリングに依存します。
+- 複数のゴルーチンからの完了や、タイムアウト付きの受信など、非同期処理の組み合わせで `select` がよく使われます。

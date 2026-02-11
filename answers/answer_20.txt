@@ -1,0 +1,25 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	fmt.Println("Start")
+
+	// 2秒間、現在のゴルーチンの実行をブロック（一時停止）する
+	time.Sleep(2 * time.Second)
+
+	fmt.Println("End")
+}
+```
+
+### 解説
+- `time.Sleep(d time.Duration)`:
+  - 指定された `Duration`（時間間隔）だけ、現在のゴルーチンを一時停止させます。
+  - `time.Second` は `time.Duration` 型の定数で、1秒を表します。
+  - `2 * time.Second` のように、`Duration` に整数を掛けることで、複数秒や複数ミリ秒などを表現できます。
+  - `time.Millisecond`, `time.Microsecond`, `time.Nanosecond`, `time.Minute`, `time.Hour` などの定数も利用できます。
+- この関数は、処理のタイミングを調整したり、簡単な待機処理を実装したりする際に使われます。

@@ -1,0 +1,37 @@
+```go
+package main
+
+import "fmt"
+
+// 2つのint型の値を返す
+func divmod(a, b int) (int, int) {
+	quotient := a / b // 商
+	remainder := a % b // 余り
+	return quotient, remainder
+}
+
+func main() {
+	// 関数からの複数の戻り値を、複数の変数で同時に受け取る
+	q, r := divmod(10, 3)
+
+	fmt.Printf("10 ÷ 3 = 商 %d, 余り %d\n", q, r)
+
+	// 戻り値の一部を無視したい場合は、ブランク識別子 `_` を使う
+	quotientOnly, _ := divmod(10, 3)
+	fmt.Printf("商だけを取得: %d\n", quotientOnly)
+}
+```
+
+### 解説
+- Goの関数は、複数の値を返すことができます。戻り値の型を `(type1, type2, ...)` のようにカンマで区切ってリストにします。
+- この機能は、関数の結果とその成否を示すエラーを一緒に返すという、Goで非常に一般的なパターンで多用されます。
+  ```go
+  value, err := someFunction()
+  if err != nil {
+      // エラー処理
+  }
+  // 正常処理
+  ```
+- 呼び出し側は、返された値の数と同じ数の変数を用意して値を受け取ります。
+
+```

@@ -1,0 +1,40 @@
+```go
+package main
+
+import "fmt"
+
+func isTrue() bool {
+	fmt.Println("isTrue() called")
+	return true
+}
+
+func isFalse() bool {
+	fmt.Println("isFalse() called")
+	return false
+}
+
+func main() {
+	fmt.Println("--- 1. isFalse() && isTrue() ---")
+	// isFalse() が false を返すため、その時点で条件式全体が false であることが確定する。
+	// そのため、&& の右側にある isTrue() は評価（実行）されない。
+	if isFalse() && isTrue() {
+		// このブロックは実行されない
+	}
+
+	fmt.Println("\n--- 2. isTrue() || isFalse() ---")
+	// isTrue() が true を返すため、その時点で条件式全体が true であることが確定する。
+	// そのため、|| の右側にある isFalse() は評価（実行）されない。
+	if isTrue() || isFalse() {
+		// このブロックは実行される
+		fmt.Println("Condition is true")
+	}
+}
+```
+
+### 解説
+- **短絡評価（Short-circuit evaluation）** とは、論理演算子 (`&&`, `||`) の左側の式を評価しただけで式全体の真偽が確定する場合、右側の式を評価しないという性質です。
+- `&&` (AND): 左側が `false` なら、右側は評価されません。
+- `||` (OR): 左側が `true` なら、右側は評価されません。
+- この性質は、`if ptr != nil && ptr.Value > 10` のように、`nil` チェックの後にポインタのフィールドにアクセスする、といった安全なコードを書くために不可欠です。
+
+```

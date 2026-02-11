@@ -1,0 +1,44 @@
+```go
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+func main() {
+	// 指定されたURLにGETリクエストを送信
+	resp, err := http.Get("https://jsonplaceholder.typicode.com/todos/1")
+	if err != nil {
+		log.Fatalf("HTTP GETリクエストに失敗しました: %v", err)
+	}
+	// defer文で、関数終了時に必ずレスポンスボディを閉じる
+	// これを忘れるとリソースリークの原因になる
+	defer resp.Body.Close()
+
+	// ステータスコードの確認
+	fmt.Println("ステータスコード:", resp.Status)
+
+	// レスポンスボディをすべて読み込む
+	// Go 1.16以降では io.ReadAll(resp.Body) が推奨される
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("レスポンスボディの読み込みに失敗しました: %v", err)
+	}
+
+	// 読み込んだ内容（バイトスライス）を文字列として表示
+	fmt.Println("レスポンスボディ:")
+	fmt.Println(string(body))
+}
+```
+
+### 解説
+- `http.Get(url string) (*http.Response, error)`:
+  - 指定された `url` にHTTP GETリクエストを送り、レスポンス `*http.Response` とエラーを返します。
+- `defer resp.Body.Close()`:
+  - `http.Get` で取得したレスポンスのボディ (`resp.Body`) は、使い終わったら必ず `Close()` する必要があります。
+  - `defer` を使うことで、関数がどのような形で終了しても（正常終了でもエラーによる途中終了でも）、確実に `Close()` が呼び出されることを保証できます。
+- `ioutil.ReadAll` (または `io.ReadAll`):
+  - `io.Reader`（`resp.Body` はこれを満たします）から、すべてのデータを読み込んでバイトスライスとして返します。

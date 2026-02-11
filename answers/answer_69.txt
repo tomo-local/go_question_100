@@ -1,0 +1,23 @@
+```go
+package main
+
+import (
+	"fmt"
+	"regexp"
+)
+
+func main() {
+	pattern := `p([a-z]+)ch`
+	matched, err := regexp.MatchString(pattern, "peach")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	fmt.Println("Matched:", matched)
+}
+```
+
+### 解説
+- `regexp.MatchString(pattern, s)` は、文字列 `s` が正規表現 `pattern` にマッチするかどうかを返します。マッチすれば `true`、しなければ `false` です。正規表現のコンパイルに失敗するとエラーを返します。
+- パターン `p([a-z]+)ch` は、'p' + 1文字以上の小文字 + 'ch' にマッチするので、"peach", "pitch", "punch" などにマッチします。
+- 同じパターンを何度も使う場合は、`regexp.Compile(pattern)` で `*regexp.Regexp` を作り、その `MatchString(s)` を使うと効率的です。`MatchString` は毎回コンパイルするため、繰り返しには向きません。

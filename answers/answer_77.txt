@@ -1,0 +1,28 @@
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	os.Setenv("MY_APP_VAR", "12345")
+	fmt.Println("MY_APP_VAR:", os.Getenv("MY_APP_VAR"))
+
+	val := os.Getenv("NON_EXISTENT_VAR")
+	fmt.Printf("NON_EXISTENT_VAR (empty? %v): %q\n", val == "", val)
+
+	if v, ok := os.LookupEnv("MY_APP_VAR"); ok {
+		fmt.Println("LookupEnv MY_APP_VAR:", v)
+	}
+	if _, ok := os.LookupEnv("NON_EXISTENT_VAR"); !ok {
+		fmt.Println("NON_EXISTENT_VAR is not set")
+	}
+}
+```
+
+### 解説
+- `os.Setenv(key, value)` で環境変数を設定し、`os.Getenv(key)` で値を取得します。存在しないキーの場合は空文字列が返ります。そのため「未設定」と「空文字が設定されている」を区別できません。
+- `os.LookupEnv(key)` は `(value string, ok bool)` を返します。`ok` が `false` のときは未設定です。未設定と空文字を区別したい場合は `LookupEnv` を使います。
+- 設定した環境変数はプロセス内と、そのプロセスが起動した子プロセスに引き継がれます。既存の環境変数を上書きするため、本番では設定内容に注意します。

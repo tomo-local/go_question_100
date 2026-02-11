@@ -1,0 +1,33 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	messages := make(chan string)
+
+	go func() {
+		time.Sleep(2 * time.Second)
+		messages <- "Hello!"
+	}()
+
+	for {
+		select {
+		case msg := <-messages:
+			fmt.Println("Received:", msg)
+			return
+		default:
+			fmt.Println("no message received")
+		}
+		time.Sleep(200 * time.Millisecond)
+	}
+}
+```
+
+### 解説
+- `select` の `default` は、どの case も**すぐには実行できない**ときに即座に実行されます。これにより、チャネルがブロックされない（ノンブロッキング）動きになります。
+- この例では、受信できるまで `default` で "no message received" を出し、200ms ごとにスリープして CPU を酷使しないようにしています。約2秒後にメッセージが届いたら受信して終了します。
+- ノンブロッキング送信も同様に `select` と `default` で実現できます。ループ内で `default` だけにすると CPU を高く使うので、`time.Sleep` などで間を空けるのが一般的です。

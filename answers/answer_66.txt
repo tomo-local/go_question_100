@@ -1,0 +1,23 @@
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+func process(ctx context.Context) {
+	requestID := ctx.Value("requestID")
+	fmt.Println("requestID:", requestID)
+}
+
+func main() {
+	ctx := context.WithValue(context.Background(), "requestID", "12345")
+	process(ctx)
+}
+```
+
+### 解説
+- `context.Context` は、リクエストスコープの値やキャンセル信号を、関数の呼び出し階層を越えて渡すための型です。
+- `context.WithValue(parent, key, value)` で、既存のコンテキストに key-value を載せた新しいコンテキストを作ります。`ctx.Value(key)` で値を取り出します。
+- キーには衝突を避けるため、パッケージ非公開の型を使うことが推奨されます（例: `type contextKey string` とし、`contextKey("requestID")` をキーにする）。リクエストIDやトレースIDの伝播に使われます。

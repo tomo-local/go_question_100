@@ -1,0 +1,34 @@
+テーブル駆動テストの例です。テストケースをスライスで定義し、ループで回します。
+
+```go
+package main
+
+import "testing"
+
+func TestAdd(t *testing.T) {
+	tests := []struct {
+		name     string
+		a, b     int
+		expected int
+	}{
+		{"positive", 2, 3, 5},
+		{"negative", -2, -3, -5},
+		{"zero", 0, 0, 0},
+		{"mixed", -1, 1, 0},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := add(tt.a, tt.b)
+			if got != tt.expected {
+				t.Errorf("add(%d, %d) = %d; want %d", tt.a, tt.b, got, tt.expected)
+			}
+		})
+	}
+}
+```
+
+### 解説
+- テストケースを構造体のスライス（テーブル）で定義し、`for` で回して `t.Run` でサブテストにします。名前・入力・期待値を一箇所で管理できるため、ケースの追加や変更がしやすくなります。
+- Go ではこの「テーブル駆動テスト」がよく使われます。入力と期待値を並べるだけで、同じロジックで多くのケースを検証できます。
+- サブテスト名に `tt.name` を使うことで、失敗時にどの行（どのケース）かがすぐに分かります。

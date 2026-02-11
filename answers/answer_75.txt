@@ -1,0 +1,15 @@
+```go
+package main
+
+import "log"
+
+func main() {
+	log.Println("This is an info message.")
+	log.Fatalf("This is a fatal error.")
+}
+```
+
+### 解説
+- `log.Println` は、標準のロガーでメッセージを標準エラーに出力します。日時などが自動で付与されます。
+- `log.Fatalf` は、フォーマット付きでメッセージを出力したあと、`os.Exit(1)` を呼んでプログラムを終了します。そのため、この行の後には処理は続きません。デーモン起動失敗時など「続行不可能」なエラーに使います。
+- 終了コード 1 は、シェルなどで「異常終了」として扱われます。`defer` は `Fatalf` の前に登録されていれば実行されますが、`Fatalf` 後は何も実行されない点に注意します。

@@ -1,0 +1,28 @@
+ベンチマークは `Benchmark` プレフィックスと `*testing.B` で定義し、`go test -bench=.` で実行します。
+
+**main.go（または対象のファイル）:**
+```go
+package main
+
+func add(a, b int) int {
+	return a + b
+}
+```
+
+**_test.go:**
+```go
+package main
+
+import "testing"
+
+func BenchmarkAdd(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		add(2, 3)
+	}
+}
+```
+
+### 解説
+- ベンチマーク関数は `BenchmarkXxx(b *testing.B)` という名前で、`b.N` は実行時にツールが決める「繰り返し回数」です。ループ内で測定したい処理（ここでは `add(2, 3)`）を実行します。
+- `go test -bench=.` でベンチマークが走り、1回あたりのナノ秒などが表示されます。`-bench=BenchmarkAdd` で特定のベンチだけ実行できます。`-benchmem` を付けるとメモリ割り当ても出ます。
+- 初期化など、計測に含めたくない部分は `b.ResetTimer()` の前で行い、ループ外で一度だけ行うと、結果が安定しやすくなります。

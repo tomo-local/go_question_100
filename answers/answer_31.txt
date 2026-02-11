@@ -1,0 +1,29 @@
+```go
+package main
+
+import "fmt"
+
+// add関数
+// 引数aとbはint型、戻り値もint型
+func add(a int, b int) int {
+	return a + b
+}
+
+func main() {
+	result := add(3, 5)
+	fmt.Printf("3 + 5 = %d\n", result)
+}
+```
+
+### 解説
+- Goの関数は `func` キーワードで定義します。
+- `func <関数名>(<引数リスト>) <戻り値の型リスト> { ... }` という構文です。
+- 引数の型が同じ場合、`a, b int` のように最後の引数にだけ型を指定してまとめることができます。
+  ```go
+  func add(a, b int) int { // こちらの方が一般的
+      return a + b
+  }
+  ```
+- 戻り値がない場合は、戻り値の型リストを省略します。
+
+```

@@ -1,0 +1,34 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	hour := 14
+
+	switch { // switch の後に式がない
+	case hour < 12:
+		fmt.Println("Morning")
+	case hour < 17:
+		fmt.Println("Afternoon")
+	default:
+		fmt.Println("Evening")
+	}
+}
+```
+
+### 解説
+- `switch` の後に比較対象の変数を置かないこの形式は、「式なし`switch`」または「`switch true`」と呼ばれます。
+- `if-else if-else` の長い連鎖を、よりクリーンに記述するための代替手段として非常によく使われます。
+- 各 `case` の式が `true` と評価される最初のものが実行されます。
+- `if-else` 版:
+  ```go
+  if hour < 12 {
+      fmt.Println("Morning")
+  } else if hour < 17 {
+      fmt.Println("Afternoon")
+  } else {
+      fmt.Println("Evening")
+  }
+  ```
+  `switch` の方が、条件が整然と並び、可読性が高いことがわかります。

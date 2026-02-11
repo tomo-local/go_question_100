@@ -1,0 +1,29 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	layout := "2006-01-02"
+	str := "2023-10-27"
+	t, err := time.Parse(layout, str)
+	if err != nil {
+		fmt.Println("Parse error:", err)
+		return
+	}
+	fmt.Println("Parsed:", t)
+
+	// RubyDate に似た形式: "Mon Jan 2 15:04:05 MST 2006" の変形
+	// "Friday, Oct 27, 2023" のような形式
+	formatted := t.Format("Monday, Jan 2, 2006")
+	fmt.Println("Formatted:", formatted)
+}
+```
+
+### 解説
+- Go の日付パースでは、**レイアウトは参照時刻 `2006-01-02 15:04:05 MST` で表す**という決まりがあります。`time.Parse("2006-01-02", "2023-10-27")` で日付文字列を `time.Time` に変換します。
+- `Format(layout string)` で、`time.Time` を任意の形式の文字列にします。ここでは "Monday, Jan 2, 2006" により "Friday, Oct 27, 2023" のような形式にしています。`time.RubyDate` は "Mon Jan 02 15:04:05 -0700 2006" 形式です。
+- パース・フォーマットとも、使う時刻は必ず Go の参照時刻（2006, 1, 2, 15, 4, 5）に対応付けて覚えると扱いやすくなります。

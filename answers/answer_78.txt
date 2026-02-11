@@ -1,0 +1,46 @@
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	f, err := os.Create("tempfile.txt")
+	if err != nil {
+		fmt.Println("Create error:", err)
+		return
+	}
+
+	_, err = f.Write([]byte("Hello, file!"))
+	if err != nil {
+		fmt.Println("Write error:", err)
+		f.Close()
+		return
+	}
+
+	if err := f.Close(); err != nil {
+		fmt.Println("Close error:", err)
+		return
+	}
+	fmt.Println("Created and wrote to tempfile.txt")
+
+	if err := os.Rename("tempfile.txt", "renamed_tempfile.txt"); err != nil {
+		fmt.Println("Rename error:", err)
+		return
+	}
+	fmt.Println("Renamed to renamed_tempfile.txt")
+
+	if err := os.Remove("renamed_tempfile.txt"); err != nil {
+		fmt.Println("Remove error:", err)
+		return
+	}
+	fmt.Println("Removed renamed_tempfile.txt")
+}
+```
+
+### 解説
+- `os.Create(name)` でファイルを作成し、存在する場合は切り詰めます。`Write` でバイト列を書き、`Close` でリソースを解放します。各操作でエラーチェックをすると安全です。
+- `os.Rename(old, new)` でファイル名を変更します。同じディレクトリ内の名前変更や、異なるディレクトリへの移動に使えます。OS によって挙動が少し異なる場合があります。
+- `os.Remove(name)` でファイルを削除します。ディレクトリを削除する場合は `os.RemoveAll` を使います。削除後は元に戻せないため、重要なファイルでは確認処理を入れるとよいです。

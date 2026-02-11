@@ -1,0 +1,44 @@
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+var (
+	data = map[string]string{"key1": "value1"}
+	mu   sync.RWMutex
+)
+
+func main() {
+	// 読み取りゴルーチン（複数）
+	for i := 0; i < 3; i++ {
+		id := i
+		go func() {
+			mu.RLock()
+			defer mu.RUnlock()
+			v := data["key1"]
+			fmt.Printf("Reader %d: %s\n", id, v)
+			time.Sleep(1 * time.Second)
+		}()
+	}
+
+	// 書き込みゴルーチン（少し遅れて実行）
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		mu.Lock()
+		defer mu.Unlock()
+		data["key2"] = "value2"
+		fmt.Println("Writer: added key2")
+	}()
+
+	time.Sleep(3 * time.Second)
+}
+```
+
+### 解説
+- `sync.RWMutex` は**読み取りロック**（`RLock`/`RUnlock`）と**書き込みロック**（`Lock`/`Unlock`）を分けます。読み取り同士は同時に取れ、書き込みは単独で排他になります。
+- 読み取りが多く書き込みが少ない場合、RWMutex にすると読み取り同士はブロックせず、スループットが上がることがあります。書き込みが入ると、その間は読み取りもブロックされます。
+- 読み取り中は `RLock`、更新するときだけ `Lock` を使うことで、読み取り負荷の高い共有データのアクセス制御に適した形になります。

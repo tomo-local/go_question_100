@@ -1,0 +1,28 @@
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	data := "apple,banana,orange"
+	
+	fruits := strings.Split(data, ",")
+
+	fmt.Printf("分割後のスライス: %v\n", fruits)
+	fmt.Println("--- 各要素 ---")
+
+	for i, fruit := range fruits {
+		fmt.Printf("Index %d: %s\n", i, fruit)
+	}
+}
+```
+
+### 解説
+- `strings.Split(s, sep string) []string`:
+  - 第1引数 `s` で指定された文字列を、第2引数 `sep` で指定された区切り文字で分割し、新しいスライス `[]string` を返します。
+  - CSV形式のデータや、特定の区切り文字で連結されたデータをパースする際によく使われます。
+
+```

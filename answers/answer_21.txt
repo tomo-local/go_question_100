@@ -1,0 +1,30 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	score := 85
+
+	if score >= 80 {
+		fmt.Println("Great")
+	} else if score >= 60 {
+		fmt.Println("Good")
+	} else {
+		fmt.Println("OK")
+	}
+}
+```
+
+### 解説
+- Goの `if` 文は、他の多くの言語と似ていますが、条件式を囲む `()` は不要です。
+- `{}` の中括弧は必須です。
+- `if` 文のスコープ内だけで有効な変数を宣言する「ステートメント付き `if`」もよく使われます。
+  ```go
+  if score := getScore(); score >= 80 {
+      // score はこの if-else ブロック内でのみ有効
+      fmt.Println("Great")
+  } else {
+      fmt.Println("Not so great")
+  }
+  ```

@@ -1,0 +1,18 @@
+```go
+package main
+
+import (
+	"log"
+	"os"
+)
+
+func main() {
+	logger := log.New(os.Stdout, "CUSTOM: ", log.Ldate|log.Ltime|log.Lshortfile)
+	logger.Println("This is a custom log message.")
+}
+```
+
+### 解説
+- `log.New(out io.Writer, prefix string, flag int)` で、出力先・プレフィックス・フラグを指定した独自のロガーを作成できます。
+- `log.Ldate` は `2009/01/23` 形式の日付、`log.Ltime` は `01:23:23` 形式の時刻、`log.Lshortfile` はファイル名と行番号（`main.go:10` など）を付与します。これらを `|` で組み合わせて使います。
+- 標準の `log` の代わりにこのロガーを使うと、アプリ固有のプレフィックスやフォーマットでログを出せます。ファイルに書きたい場合は、`os.Create` などで得た `io.Writer` を渡します。

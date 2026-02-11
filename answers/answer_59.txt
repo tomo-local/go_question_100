@@ -1,0 +1,27 @@
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ticker := time.NewTicker(500 * time.Millisecond)
+	defer ticker.Stop()
+
+	count := 0
+	for t := range ticker.C {
+		fmt.Printf("Tick at %v\n", t)
+		count++
+		if count >= 5 {
+			break
+		}
+	}
+}
+```
+
+### 解説
+- `time.NewTicker(d)` は、`d` 間隔で現在時刻を送り続けるチャネル `ticker.C` を返します。`for t := range ticker.C` で定期的に時刻を受け取れます。
+- 使い終わったら `ticker.Stop()` を呼び、チャネルへの送信を止めてリソースを解放します。`defer` にしておくと安全です。
+- 5回でループを抜けることで、プログラムが終了します。`Ticker` はポーリングや定期ログなど、一定間隔の処理に使います。1回限りの遅延には `time.After` や `time.NewTimer` を使います。

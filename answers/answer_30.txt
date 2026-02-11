@@ -1,0 +1,37 @@
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("start")
+
+	// defer文は、それが含まれる関数が終了する直前に実行される
+	defer fmt.Println("deferred")
+
+	fmt.Println("end")
+}
+```
+
+### 実行結果
+```
+start
+end
+deferred
+```
+
+### 解説
+- `defer` キーワードの後ろに置かれた関数呼び出しは、すぐに実行されず、「遅延実行リスト」に追加されます。
+- `defer` を含んでいる関数（この場合は `main` 関数）が `return` する直前に、遅延された関数が**逆順で**（LIFO: Last-In, First-Out）実行されます。
+- `defer` は、ファイルハンドルやネットワーク接続などのリソースを確実に解放するために非常によく使われます。リソースを取得した直後に `defer file.Close()` のように記述することで、関数のどこで `return` されても、クローズ処理のし忘れを防ぐことができます。
+  ```go
+  f, err := os.Open("filename.txt")
+  if err != nil {
+      // ...
+  }
+  defer f.Close() // ここで解放処理を予約する
+  
+  // ... ファイル f を使った処理 ...
+  
+  // returnしても、defer f.Close()が呼び出される
+  ```

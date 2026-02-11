@@ -1,0 +1,28 @@
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type User struct {
+	Name  string `json:"name" validate:"required"`
+	Email string `json:"email" validate:"required,email"`
+	Age   int    `json:"age,omitempty" validate:"gte=0"`
+}
+
+func main() {
+	u := User{}
+	t := reflect.TypeOf(u)
+	f, _ := t.FieldByName("Name")
+	tag := f.Tag
+	jsonTag := tag.Get("json")
+	fmt.Println("Name's json tag:", jsonTag)
+}
+```
+
+### 解説
+- 構造体のフィールドに付けたタグ（例: `` `json:"name"` ``）は、**リフレクション**で読み取れます。`reflect.TypeOf(x)` で型情報を取り、`FieldByName("Name")` でフィールドを取得すると、`StructTag` が得られます。
+- `tag.Get("json")` で `json` タグの値を取得します。ここでは "name" が表示されます。`validate` タグも同様に `tag.Get("validate")` で取得できます。
+- `encoding/json` やバリデーションライブラリは、このようにタグを解釈してシリアライズやバリデーションを行います。タグはメタデータとしてフィールドに紐づき、実行時に `reflect` で参照されます。

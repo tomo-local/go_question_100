@@ -1,0 +1,33 @@
+```go
+package main
+
+import (
+	"fmt"
+)
+
+// pinger: 送信専用チャネル chan<- string に msg を送信
+func pinger(pings chan<- string, msg string) {
+	pings <- msg
+}
+
+// ponger: pings から受信し、pongs に送信
+func ponger(pings <-chan string, pongs chan<- string) {
+	msg := <-pings
+	pongs <- msg
+}
+
+func main() {
+	pings := make(chan string, 1)
+	pongs := make(chan string, 1)
+
+	go pinger(pings, "ping")
+	go ponger(pings, pongs)
+
+	fmt.Println(<-pongs)
+}
+```
+
+### 解説
+- チャネル型には**方向**を指定できます。`chan<- T` は送信専用、`<-chan T` は受信専用、`chan T` は双方向です。
+- 関数の引数で `chan<-` や `<-chan` を指定すると、誤って逆方向の操作（送信専用チャネルへの受信など）を防げます。コンパイル時に型で制約されます。
+- 双方向チャネルは送信専用・受信専用の引数に渡せますが、その逆はできません。これにより、チャネルの役割がコード上で明確になります。

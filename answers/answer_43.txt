@@ -1,0 +1,42 @@
+```go
+package main
+
+import "fmt"
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+// Person型が fmt.Stringer インターフェースを満たすように String() メソッドを実装
+func (p Person) String() string {
+	return fmt.Sprintf("Name: %s, Age: %d", p.Name, p.Age)
+}
+
+func main() {
+	p := Person{
+		Name: "John Doe",
+		Age:  42,
+	}
+
+	// fmt.Println や fmt.Printf("%v") などは、
+	// 引数が Stringer インターフェースを満たす場合、
+	// 自動的に String() メソッドを呼び出してその結果を出力する
+	fmt.Println(p)
+}
+```
+
+### 実行結果
+```
+Name: John Doe, Age: 42
+```
+
+### 解説
+- `fmt.Stringer` は、Goの標準ライブラリで最もよく知られたインターフェースの一つです。
+  ```go
+  type Stringer interface {
+      String() string
+  }
+  ```
+- ある型がこのインターフェースを満たす（つまり、`String() string` というシグネチャのメソッドを持つ）と、`fmt` パッケージはその型の値をどのように文字列として表現すべきかを「知る」ことができます。
+- デバッグやログ出力の際に、構造体の内容を人間が読みやすいカスタムフォーマットで表示したい場合に非常に便利です。
