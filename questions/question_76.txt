@@ -1,0 +1,13 @@
+問題76: カスタムログフォーマット
+
+標準の `log` パッケージの出力をカスタマイズするプログラムを作成してください。
+
+`log.New` を使って、新しいロガーを作成します。このとき、以下の設定を行ってください。
+- 出力先: `os.Stdout`
+- プレフィックス: "CUSTOM: "
+- フラグ: `log.Ldate | log.Ltime | log.Lshortfile`
+  - `Ldate`: `YYYY/MM/DD` 形式の日付
+  - `Ltime`: `HH:MM:SS` 形式の時刻
+  - `Lshortfile`: ファイル名と行番号
+
+作成したカスタムロガーを使って、"This is a custom log message." というメッセージを出力してください。

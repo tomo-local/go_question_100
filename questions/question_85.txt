@@ -1,0 +1,13 @@
+問題85: `url` パッケージ
+
+`net/url` パッケージを使って、URL文字列をパースし、その構成要素を個別に表示するプログラムを作成してください。
+
+`https://www.example.com:8080/path/to/resource?key1=value1&key2=value2#fragment` というURL文字列を `url.Parse` を使ってパースします。
+
+パースした結果の `URL` オブジェクトから、以下の情報を取得してコンソールに表示してください。
+- Scheme (スキーム)
+- Host (ホスト名)
+- Path (パス)
+- RawQuery (クエリ文字列)
+- Fragment (フラグメント)
+- クエリパラメータ `key1` の値

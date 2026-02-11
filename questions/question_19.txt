@@ -1,0 +1,7 @@
+問題19: 文字列の検索 (`strings.Contains`, `strings.HasPrefix`)
+
+`strings` パッケージの関数を使って、文字列 "Go programming language" の中に特定の文字列や接頭辞が含まれているかを調べるプログラムを作成してください。
+
+1. `strings.Contains` を使って、文字列に "pro" が含まれているかどうかを判定します。
+2. `strings.HasPrefix` を使って、文字列が "Go" で始まっているかどうかを判定します。
+3. それぞれの判定結果（`true` または `false`）をコンソールに表示してください。

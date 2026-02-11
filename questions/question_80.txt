@@ -1,0 +1,14 @@
+問題80: `encoding/csv` (書き込み)
+
+`encoding/csv` パッケージを使って、CSV形式のデータをファイルに書き込むプログラムを作成してください。
+
+`records` という `[][]string` 型のスライスに、以下のデータを用意します。
+```
+{"first_name", "last_name", "username"},
+{"Rob", "Pike", "rob"},
+{"Ken", "Thompson", "ken"},
+{"Robert", "Griesemer", "gri"},
+```
+
+`os.Create` で "users.csv" というファイルを作成し、`csv.NewWriter` を使って、この `records` の内容をCSVファイルとして書き込んでください。
+最後に、`writer.Flush()` を呼び出して、バッファに残っているデータを確実にファイルに書き出すことを忘れないでください。

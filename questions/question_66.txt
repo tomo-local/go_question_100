@@ -1,0 +1,8 @@
+問題66: `context` の基本
+
+`context.WithValue` を使って、リクエストIDのような値をコンテキストに格納し、関数の呼び出し階層を越えてその値を伝播させるプログラムを作成してください。
+
+1. `context.Background()` をベースに、`WithValue` を使ってキー "requestID"、値 "12345" を持つ新しいコンテキスト `ctx` を作成します。
+2. `process` という、`context.Context` を引数に取る関数を定義します。
+3. `process` 関数の中で、`ctx.Value("requestID")` を使ってリクエストIDを取得し、コンソールに表示してください。
+4. `main` 関数から `process` 関数を呼び出します。

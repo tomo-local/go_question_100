@@ -1,0 +1,9 @@
+問題73: `net/http` の`HandleFunc`
+
+`http.HandleFunc` を使って、特定のパスへのリクエストを処理するハンドラ関数を登録するWebサーバを作成してください。
+
+- `/hello` パスへのリクエストには、"Hello, you've hit /hello" と応答します。
+- `/world` パスへのリクエストには、"Hello, you've hit /world" と応答します。
+
+それぞれのパスに対応するハンドラ関数を定義し、`http.HandleFunc` で登録してください。
+サーバはポート `8090` で待ち受けるようにします。

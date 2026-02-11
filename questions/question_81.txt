@@ -1,0 +1,13 @@
+問題81: `encoding/csv` (読み込み)
+
+`encoding/csv` パッケージを使って、CSV形式の文字列からデータを読み込むプログラムを作成してください。
+
+以下の内容を持つCSV文字列があるとします。
+```
+first_name,last_name,username
+Rob,Pike,rob
+Ken,Thompson,ken
+```
+
+`strings.NewReader` を使ってこの文字列から `io.Reader` を作成し、`csv.NewReader` に渡してください。
+`reader.ReadAll()` を使ってすべてのレコードを一度に読み込み、その結果をコンソールに表示してください。

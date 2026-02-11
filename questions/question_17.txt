@@ -1,0 +1,5 @@
+問題17: HTTP GETリクエスト (`net/http.Get`)
+
+`net/http` パッケージの `Get` 関数を使って、`https://jsonplaceholder.typicode.com/todos/1` というURLにHTTP GETリクエストを送信し、レスポンスのボディを読み取ってコンソールに表示するプログラムを作成してください。
+
+エラーハンドリングと、レスポンスボディの `Close()` の呼び出しを `defer` を使って適切に行ってください。
