@@ -8,11 +8,11 @@ Go言語の基礎から応用までを体系的に学習するための問題集
 ## 問題リスト
 
 ### Part 1: 基本 (1-20)
-- [ ] 1. `fmt.Println` vs `fmt.Printf`
-- [ ] 2. `len()` とマルチバイト文字
-- [ ] 3. `strings.Split`
-- [ ] 4. スライスと `append`
-- [ ] 5. `math.Ceil` vs `math.Floor`
+- [x] 1. `fmt.Println` vs `fmt.Printf`
+- [x] 2. `len()` とマルチバイト文字
+- [x] 3. `strings.Split`
+- [x] 4. スライスと `append`
+- [x] 5. `math.Ceil` vs `math.Floor`
 - [ ] 6. `time.Now` とフォーマット
 - [ ] 7. コマンドライン引数 (`os.Args`)
 - [ ] 8. 文字列と数値の変換 (`strconv`)
