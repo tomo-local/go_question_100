@@ -13,11 +13,11 @@ Go言語の基礎から応用までを体系的に学習するための問題集
 - [x] 3. `strings.Split`
 - [x] 4. スライスと `append`
 - [x] 5. `math.Ceil` vs `math.Floor`
-- [ ] 6. `time.Now` とフォーマット
-- [ ] 7. コマンドライン引数 (`os.Args`)
-- [ ] 8. 文字列と数値の変換 (`strconv`)
-- [ ] 9. スライスのソート (`sort.Ints`)
-- [ ] 10. 文字列の結合 (`strings.Join`)
+- [x] 6. `time.Now` とフォーマット
+- [x] 7. コマンドライン引数 (`os.Args`)
+- [x] 8. 文字列と数値の変換 (`strconv`)
+- [x] 9. スライスのソート (`sort.Ints`)
+- [x] 10. 文字列の結合 (`strings.Join`)
 - [ ] 11. 標準入力の読み取り (`bufio.Scanner`)
 - [ ] 12. ファイルの読み書き (`os.ReadFile`, `os.WriteFile`)
 - [ ] 13. マップの基本 (作成、追加、アクセス)
