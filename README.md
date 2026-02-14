@@ -18,11 +18,11 @@ Go言語の基礎から応用までを体系的に学習するための問題集
 - [x] 8. 文字列と数値の変換 (`strconv`)
 - [x] 9. スライスのソート (`sort.Ints`)
 - [x] 10. 文字列の結合 (`strings.Join`)
-- [ ] 11. 標準入力の読み取り (`bufio.Scanner`)
-- [ ] 12. ファイルの読み書き (`os.ReadFile`, `os.WriteFile`)
-- [ ] 13. マップの基本 (作成、追加、アクセス)
-- [ ] 14. 構造体 (struct) の定義と利用
-- [ ] 15. Goの構造体をJSONに変換 (`json.Marshal`)
+- [x] 11. 標準入力の読み取り (`bufio.Scanner`)
+- [x] 12. ファイルの読み書き (`os.ReadFile`, `os.WriteFile`)
+- [x] 13. マップの基本 (作成、追加、アクセス)
+- [x] 14. 構造体 (struct) の定義と利用
+- [x] 15. Goの構造体をJSONに変換 (`json.Marshal`)
 - [ ] 16. JSONをGoの構造体に変換 (`json.Unmarshal`)
 - [ ] 17. HTTP GETリクエスト (`net/http.Get`)
 - [ ] 18. 乱数の生成 (`math/rand`)
