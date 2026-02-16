@@ -23,18 +23,18 @@ Go言語の基礎から応用までを体系的に学習するための問題集
 - [x] 13. マップの基本 (作成、追加、アクセス)
 - [x] 14. 構造体 (struct) の定義と利用
 - [x] 15. Goの構造体をJSONに変換 (`json.Marshal`)
-- [ ] 16. JSONをGoの構造体に変換 (`json.Unmarshal`)
-- [ ] 17. HTTP GETリクエスト (`net/http.Get`)
-- [ ] 18. 乱数の生成 (`math/rand`)
-- [ ] 19. 文字列の検索 (`strings.Contains`, `strings.HasPrefix`)
-- [ ] 20. プログラムの一時停止 (`time.Sleep`)
+- [x] 16. JSONをGoの構造体に変換 (`json.Unmarshal`)
+- [x] 17. HTTP GETリクエスト (`net/http.Get`)
+- [x] 18. 乱数の生成 (`math/rand`)
+- [x] 19. 文字列の検索 (`strings.Contains`, `strings.HasPrefix`)
+- [x] 20. プログラムの一時停止 (`time.Sleep`)
 
 ### Part 2: 制御構文 (21-30)
-- [ ] 21. `if` と `else`
-- [ ] 22. `if` と短絡評価
-- [ ] 23. `switch` (基本)
-- [ ] 24. `switch` (式なし)
-- [ ] 25. `for` (3つのコンポーネント)
+- [x] 21. `if` と `else`
+- [x] 22. `if` と短絡評価
+- [x] 23. `switch` (基本)
+- [x] 24. `switch` (式なし)
+- [x] 25. `for` (3つのコンポーネント)
 - [ ] 26. `for` (while文のように)
 - [ ] 27. `for` (無限ループ)
 - [ ] 28. `for-range` (スライス)
