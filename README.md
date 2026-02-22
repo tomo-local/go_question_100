@@ -66,11 +66,11 @@ Go言語の基礎から応用までを体系的に学習するための問題集
 - [x] 50. `io.Reader` インターフェース
 
 ### Part 5: 並行処理 (51-65)
-- [ ] 51. goroutineの基本
-- [ ] 52. `sync.WaitGroup`
-- [ ] 53. チャネルの基本
-- [ ] 54. チャネルを使ったgoroutine間の通信
-- [ ] 55. チャネルの方向
+- [x] 51. goroutineの基本
+- [x] 52. `sync.WaitGroup`
+- [x] 53. チャネルの基本
+- [x] 54. チャネルを使ったgoroutine間の通信
+- [x] 55. チャネルの方向
 - [ ] 56. `range` と `close`
 - [ ] 57. `select` の基本
 - [ ] 58. `select` と `default`
