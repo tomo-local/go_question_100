@@ -71,16 +71,16 @@ Go言語の基礎から応用までを体系的に学習するための問題集
 - [x] 53. チャネルの基本
 - [x] 54. チャネルを使ったgoroutine間の通信
 - [x] 55. チャネルの方向
-- [ ] 56. `range` と `close`
-- [ ] 57. `select` の基本
-- [ ] 58. `select` と `default`
-- [ ] 59. `time.Ticker`
-- [ ] 60. `time.Timer`
-- [ ] 61. バッファ付きチャネル
-- [ ] 62. `sync.Mutex`
-- [ ] 63. `sync.RWMutex`
-- [ ] 64. `sync.Once`
-- [ ] 65. `atomic` パッケージ
+- [x] 56. `range` と `close`
+- [x] 57. `select` の基本
+- [x] 58. `select` と `default`
+- [x] 59. `time.Ticker`
+- [x] 60. `time.Timer`
+- [x] 61. バッファ付きチャネル
+- [x] 62. `sync.Mutex`
+- [x] 63. `sync.RWMutex`
+- [x] 64. `sync.Once`
+- [x] 65. `atomic` パッケージ
 
 ### Part 6: 標準ライブラリ (応用) (66-85)
 - [ ] 66. `context` の基本
