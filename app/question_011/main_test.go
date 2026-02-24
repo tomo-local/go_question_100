@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -43,8 +44,8 @@ func TestMainFunction(t *testing.T) {
 
 	// 7.期待する出力の定義
 	wantLines := []string{
-		"何か入力してください "
-		">入力された内容: Hello from Test"
+		"何か入力してください ",
+		">入力された内容: Hello from Test",
 	}
 
 	want := strings.Join(wantLines, "\n") + "\n"
